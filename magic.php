@@ -17,6 +17,10 @@
 
 // $obj = new Test("Akshay");
 // echo $obj;
+// //or
+// echo (string) $obj;
+// //! casting to string also call the __toString()
+
 
 
 //! __set_state() is called when var_export() function is used
