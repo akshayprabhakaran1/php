@@ -1,25 +1,44 @@
 <?php
 
-$hour = 12;
+require "includes/database.php";
+
+$conn = getDB();
+
+$sql = "SELECT * FROM articles";
+
+$results = mysqli_query($conn, $sql);
+
+
+//! === is used to compare the false if we use == it
+//! will return false for empty values of string and integer
+//! as they represent 0
+if ($results === false) {
+    echo mysqli_error($conn);
+} else {
+    //! fetch_all() to fetch all rows at once
+    //! fetch_row() to fetch a single row
+    $articles = mysqli_fetch_all($results, MYSQLI_ASSOC); 
+}
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Lorem Ipsum</h1>
-    <?php if ($hour < 12): ?>
-    Good Morning
-    <?php elseif ($hour < 18): ?>
-    Good Afternoon
-    <?php elseif ($hour < 22): ?>
-    Good Evening
-    <?php else: ?>
-    Good Night
-    <?php endif; ?>
-</body>
-</html>
+
+<?php require 'includes/header.php' ?>
+
+<a href="new-article.php">New article</a>
+
+<?php if (empty($articles)): ?>
+    <p>No articles found.</p>
+<?php else: ?>
+    <ul>
+        <?php foreach ($articles as $article): ?>
+            <li>
+                <article>
+                    <h2><a href="article.php?id=<?= $article['id']; ?>"><?= htmlspecialchars($article['title']); ?></a></h2>
+                    <p> <?= htmlspecialchars($article['content']); ?></p>
+                </article>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+
+<?php require 'includes/footer.php' ?>
