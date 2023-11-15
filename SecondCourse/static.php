@@ -14,5 +14,4 @@ class Student {
         echo self::$student_id;
     }
 }
-
 echo Student::someFunction();
