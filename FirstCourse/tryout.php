@@ -22,3 +22,21 @@
 //! you can add title
 
 //! novalidate to add no validation to the form
+
+//! http is stateless any previous request is not depent on current request
+//! session is used to remember the states
+
+<?php
+
+//! setting a cookie with expire date if no expire date
+//! then it is set to session meaning when we close the browser
+//! the data is lost.
+
+//! cookie will expire two days from now
+setcookie("example", "hello", time() + 60 * 60 * 24 * 2., '/');
+
+//! to delete a cookie we will set the cookie to a past time
+//! the fourth argument is to set the path of the root
+
+//! to display the cookie
+var_dump($_COOKIE);

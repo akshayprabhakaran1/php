@@ -3,7 +3,14 @@
 require "includes/database.php";
 require "includes/article.php";
 require "includes/url.php";
+require "includes/auth.php";
 
+session_start();
+
+
+if (!isLoggedIn()) {
+    die ('unauthorised');
+}
 
 $title = '';
 $content = '';
