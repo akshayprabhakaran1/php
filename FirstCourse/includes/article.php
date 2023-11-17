@@ -11,27 +11,24 @@ function getArticle($conn, $id) {
 
     $sql = "SELECT *
             FROM articles
-            WHERE id = ?";
+            WHERE id = :id";
 
     //! by using prepare we no longer need to check is_numeric()
     //! to avoid sql injecction
 
-    $stmt = mysqli_prepare($conn, $sql);
+    $stmt = $conn -> prepare($sql);
 
-    if ($stmt === false) {
+    //! PDO::PARAM_INT define datatype of parameter
+    $stmt -> bindValue(':id', $id, PDO::PARAM_INT);
 
-        echo mysqli_error($conn);
+    if ( $stmt -> execute() ) {
 
-    } else {
+        //! to return an assosiative array
+        //! returns false if not found
+        return $stmt -> fetch(PDO::FETCH_ASSOC);
+        // $result = mysqli_stmt_get_result($stmt);
 
-        mysqli_stmt_bind_param($stmt,'i', $id);
-
-        if (mysqli_stmt_execute($stmt)) {
-
-            $result = mysqli_stmt_get_result($stmt);
-
-            return mysqli_fetch_array($result, MYSQLI_ASSOC);
-        }
+        // return mysqli_fetch_array($result, MYSQLI_ASSOC);
     }
 }
 

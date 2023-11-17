@@ -1,27 +1,26 @@
 <?php
 
-require "includes/database.php";
+require "classes/Database.php";
+require "classes/Article.php";
 require "includes/auth.php";
 
 session_start();
 
-$conn = getDB();
+$db = new Database();
+$conn = $db -> getConn();
 
-$sql = "SELECT * FROM articles";
-
-$results = mysqli_query($conn, $sql);
+$articles = Article::getAll($conn);
 
 
-//! === is used to compare the false if we use == it
-//! will return false for empty values of string and integer
-//! as they represent 0
-if ($results === false) {
-    echo mysqli_error($conn);
-} else {
-    //! fetch_all() to fetch all rows at once
-    //! fetch_row() to fetch a single row
-    $articles = mysqli_fetch_all($results, MYSQLI_ASSOC); 
-}
+// //! === is used to compare the false if we use == it
+// //! will return false for empty values of string and integer
+// //! as they represent 0
+// if ($results === false) {
+//     var_dump($conn -> errorInfo());
+// } else {
+//     //! fetch_all() to fetch all rows at once
+//     //! fetch_row() to fetch a single row
+// }
 
 ?>
 

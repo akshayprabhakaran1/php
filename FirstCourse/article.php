@@ -1,9 +1,11 @@
 <?php
 
-require "includes/database.php";
-require "includes/article.php";
+require "classes/Database.php";
+require "classes/Article.php";
 
-$conn = getDB();
+$db = new Database();
+$conn = $db -> getConn();
+
 //! $_GET[] is used to get the url strings
 //! after the ? as a key value pair in the form 
 //! of a array
@@ -31,7 +33,7 @@ if ( isset($_GET['id']) ) {
     //     $article = mysqli_fetch_assoc($results); 
     // }
 
-    $article = getArticle($conn, $_GET['id']);
+    $article = Article::getByID($conn, $_GET['id']);
 
 } else {
     $article = null;
@@ -42,16 +44,16 @@ if ( isset($_GET['id']) ) {
 
 <?php require 'includes/header.php' ?>
 
-<?php if ($article === null): ?>
-    <p>No articles found.</p>
-<?php else: ?>
+<?php if ($article): ?>
     <article>
-        <h2><?= htmlspecialchars($article['title']); ?></h2>
-        <p> <?= htmlspecialchars($article['content']); ?></p>
+        <h2><?= htmlspecialchars($article->title); ?></h2>
+        <p> <?= htmlspecialchars($article->content); ?></p>
     </article>
 
-    <a href="edit-article.php?id=<?= $article['id'] ?>">Edit</a>
-
+    <a href="edit-article.php?id=<?= $article->id; ?>">Edit</a>
+    <a href="edit-article.php?id=<?= $article->id; ?>">Delete</a>
+<?php else: ?>
+    <p>No articles found.</p>
 <?php endif; ?>
 
 <?php require 'includes/footer.php' ?>
