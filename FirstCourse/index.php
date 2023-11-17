@@ -1,30 +1,38 @@
 <?php
 
-require "includes/database.php";
+require "classes/Database.php";
+require "classes/Article.php";
+require "includes/auth.php";
 
-$conn = getDB();
+session_start();
 
-$sql = "SELECT * FROM articles";
+$db = new Database();
+$conn = $db -> getConn();
 
-$results = mysqli_query($conn, $sql);
+$articles = Article::getAll($conn);
 
 
-//! === is used to compare the false if we use == it
-//! will return false for empty values of string and integer
-//! as they represent 0
-if ($results === false) {
-    echo mysqli_error($conn);
-} else {
-    //! fetch_all() to fetch all rows at once
-    //! fetch_row() to fetch a single row
-    $articles = mysqli_fetch_all($results, MYSQLI_ASSOC); 
-}
+// //! === is used to compare the false if we use == it
+// //! will return false for empty values of string and integer
+// //! as they represent 0
+// if ($results === false) {
+//     var_dump($conn -> errorInfo());
+// } else {
+//     //! fetch_all() to fetch all rows at once
+//     //! fetch_row() to fetch a single row
+// }
 
 ?>
 
 <?php require 'includes/header.php' ?>
 
-<a href="new-article.php">New article</a>
+<?php if (isLoggedIn()): ?>
+    <p>You are logged in. <a href="logout.php">Log out</a></p>
+    <p><a href="new-article.php">New article</a></p>
+<?php else: ?>
+    <p>You are not logged in. <a href="login.php">Log in</a></p>
+<?php endif; ?>
+
 
 <?php if (empty($articles)): ?>
     <p>No articles found.</p>

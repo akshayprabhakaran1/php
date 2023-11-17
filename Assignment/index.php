@@ -1,33 +1,37 @@
 <?php
+error_reporting( E_ALL );
+ini_set('display_errors', '1');
 
-        // Include Request and Response classes
+require "classes/Database.php";
+require "classes/Books.php";
 
-        $url = 'https://api.exoclick.com/v2/login';
+$book = new Books();
+$db = new Database();
+$conn = $db -> getConn();
 
-        $params = array(
-                'api_token'  => 'tokenhere'
-            );
+function fetchAPI($url) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,$url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 
-        // Create a new Request object
-        $request = new Request($url, 'POST', $params);
+    $result = curl_exec($ch);
 
-        // Send the request
-        $request->send();
+    if ($e = curl_error($ch)) {
+        echo "". $e;    
+    } else {
+        $decoded = json_decode($result, true);
+        return $decoded;
+    }
+    curl_close($ch);
+}
 
-        // Get the Response object
-        $response = $request->getResponse();
+$data = fetchAPI("https://wolnelektury.pl/api/books/"); 
 
-        if($response->getStatusCode() == 200) {
+// print_r($data[0]);
 
-            // Retrieve the session token details
-            $token = $response->getBodyDecoded();
+for ($i = 0; $i <= 99; $i++) {
+    $book -> insert($conn, $data[$i]);
+}
 
-            print_r($token);
-        }
-        else {
-
-            echo $response->getStatusCode() . PHP_EOL;
-            echo $response->getReasonPhrase() . PHP_EOL;
-            echo $response->getBody() . PHP_EOL;
-        }
-    ?>
+?>
+>>>>>>> 0e5dbf78f996c4b404c350248bc7cb8246f27030
