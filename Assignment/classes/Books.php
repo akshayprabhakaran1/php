@@ -5,7 +5,6 @@ ini_set('display_errors', '1');
 class Books {
     public function insert($conn, $books) {
 
-        print_r($books['title']);
         $sql = "INSERT INTO books (
                     title,
                     author,
@@ -42,4 +41,20 @@ class Books {
 
         // binding inserting Values
     }
+
+    public function getBooks($conn) {
+        $sql = "SELECT *
+                FROM books";
+        
+        $stmt = $conn -> prepare($sql);
+
+        if ( $stmt -> execute() ) {
+
+            //! to return an assosiative array
+            //! returns false if not found
+            return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
+
+
 }

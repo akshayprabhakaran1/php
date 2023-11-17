@@ -9,28 +9,51 @@ $book = new Books();
 $db = new Database();
 $conn = $db -> getConn();
 
-function fetchAPI($url) {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL,$url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+$result = $book -> getBooks($conn);
 
-    $result = curl_exec($ch);
+$t_heading = array();
 
-    if ($e = curl_error($ch)) {
-        echo "". $e;    
-    } else {
-        $decoded = json_decode($result, true);
-        return $decoded;
-    }
-    curl_close($ch);
+foreach ($result[0] as $keys => $values) {
+    array_push($t_heading, $keys);
 }
 
-$data = fetchAPI("https://wolnelektury.pl/api/books/"); 
-
-// print_r($data[0]);
-
-for ($i = 0; $i <= 99; $i++) {
-    $book -> insert($conn, $data[$i]);
-}
+// print_r($t_heading);
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
+        crossorigin="anonymous"
+    >
+    <title>Document</title>
+</head>
+<body>
+    <h1 style="text-align: center">Table Of Books</h1>
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <?php foreach($t_heading as $heading): ?>
+                <th> <?= $heading ?> </th>
+            <?php endforeach; ?>
+        </tr>
+        <?php foreach($result as $des): ?>
+           <tr>
+             <?php foreach($des as $d): ?>
+                <th> <?= $d ?> </th>
+            <?php endforeach; ?>
+           </tr>
+        <?php endforeach; ?>
+    </table>
+    <script 
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
+        crossorigin="anonymous">
+    </script>
+</body>
+</html>
