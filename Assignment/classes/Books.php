@@ -42,7 +42,8 @@ class Books {
         // binding inserting Values
     }
 
-    public function getBooks($conn) {
+    public function getAllBooks($conn) {
+
         $sql = "SELECT *
                 FROM books";
         
@@ -54,6 +55,32 @@ class Books {
             //! returns false if not found
             return $stmt -> fetchAll(PDO::FETCH_ASSOC);
         }
+    }
+
+    public function getPages($conn, $limit, $offset) {
+
+        $sql = "SELECT *
+                FROM books
+                LIMIT :limit
+                OFFSET :offset";
+        
+        $stmt = $conn -> prepare($sql);
+
+        $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);
+        $stmt -> bindValue(":offset", $offset, PDO::PARAM_INT);
+
+        if ( $stmt -> execute() ) {
+            return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
+
+    public function getTotalRecords($conn) {
+
+        $sql = "SELECT COUNT(*)
+                FROM books";
+
+        return $conn->query($sql) -> fetchColumn();
+
     }
 
 
