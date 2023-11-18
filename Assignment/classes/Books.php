@@ -57,21 +57,44 @@ class Books {
         }
     }
 
-    public function getPages($conn, $limit, $offset) {
+    public function getPages($conn, $limit, $offset, $order, $type) {
 
-        $sql = "SELECT *
+        if ($order == "not") {
+            
+            $sql = "SELECT *
                 FROM books
                 LIMIT :limit
                 OFFSET :offset";
         
-        $stmt = $conn -> prepare($sql);
+            $stmt = $conn -> prepare($sql);
 
-        $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);
-        $stmt -> bindValue(":offset", $offset, PDO::PARAM_INT);
+            $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);
+            $stmt -> bindValue(":offset", $offset, PDO::PARAM_INT);
 
-        if ( $stmt -> execute() ) {
-            return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+            if ( $stmt -> execute() ) {
+                return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+            }
+
+        } else {
+
+            $sql = "SELECT *
+                FROM books
+                ORDER BY $order 
+                $type
+                LIMIT :limit
+                OFFSET :offset";
+
+            $stmt = $conn -> prepare($sql);
+
+            $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);
+            $stmt -> bindValue(":offset", $offset, PDO::PARAM_INT); 
+
+            if ( $stmt -> execute() ) {
+                return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+            }
         }
+
     }
 
     public function getTotalRecords($conn) {
@@ -82,6 +105,5 @@ class Books {
         return $conn->query($sql) -> fetchColumn();
 
     }
-
 
 }

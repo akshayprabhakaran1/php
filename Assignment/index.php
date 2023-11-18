@@ -16,7 +16,7 @@ $total_records = $book -> getTotalRecords($conn);
 
 $pagenator = new Pagenator($_GET['page'] ?? 1, 10, $total_records);
 
-$result = $book -> getPages($conn, $pagenator -> limit, $pagenator -> offset);
+$result = $book -> getPages($conn, $pagenator -> limit, $pagenator -> offset, $_GET['order'] ?? "not", $_GET['type'] ?? "not");
 
 $t_heading = array();
 
@@ -33,7 +33,22 @@ foreach ($result[0] as $keys => $values) {
     <table class="table table-striped table-bordered table-hover">
         <tr>
             <?php foreach($t_heading as $heading): ?>
-                <th> <?= $heading ?> </th>
+                <th> 
+                    <div class="title-sort">
+                        <div class="title">
+                            <?= $heading ?>
+                        </div>
+                        <div class="sort-btn">
+                            <a href="?page=<?= $_GET['page'] ?? 1 ?>&order=<?= $heading ?>&type=ASC">
+                                <i class="bi bi-caret-up-fill"></i>
+                            </a>
+                            <a href="?page=<?= $_GET['page'] ?? 1 ?>&order=<?= $heading ?>&type=DESC">
+                                <i class="bi bi-caret-down-fill"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- <input type="text" id="<?= $heading ?>"> -->
+                </th>
             <?php endforeach; ?>
         </tr>
         <?php foreach($result as $des): ?>
@@ -49,7 +64,7 @@ foreach ($result[0] as $keys => $values) {
 
         <!-- to disable the previous button if previous is none -->
         <?php if ($pagenator -> previous): ?>
-            <a class="btn btn-primary" href="?page=<?= $pagenator -> previous ?>">Previous</a>
+            <a class="btn btn-primary" href="?page=<?= $pagenator -> previous ?>&order=<?= $_GET['order'] ?? "not" ?>&type=<?= $_GET['type'] ?? "not" ?>">Previous</a>
         <?php else: ?>
             <button class="btn btn-primary">Previous</button>
         <?php endif; ?>
@@ -61,7 +76,7 @@ foreach ($result[0] as $keys => $values) {
 
         <!-- to disable the next button if next is none -->
         <?php if ($pagenator -> next): ?>
-            <a class="btn btn-primary" href="?page=<?= $pagenator -> next ?>">Next</a>
+            <a class="btn btn-primary" href="?page=<?= $pagenator -> next ?>&order=<?= $_GET['order'] ?? "not" ?>&type=<?= $_GET['type'] ?? "not" ?>">Next</a>
         <?php else: ?>
             <button class="btn btn-primary">Next</button>
         <?php endif; ?>

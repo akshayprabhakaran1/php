@@ -1,0 +1,17 @@
+.title-sort {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-right: 10px;
+}
+
+.sort-btn i {
+  display: flex;
+  font-size: 10px;
+}
+
+.sort-btn a {
+  text-decoration: none;
+  color: inherit;
+}
