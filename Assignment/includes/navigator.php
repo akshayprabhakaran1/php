@@ -37,7 +37,7 @@ if(isset($_POST['table_attr'])) {
 
     <?php include "../includes/paginator.php" ?>
 
-    // unless the jquery will not work at all
+    <!-- unless the jquery will not work at all -->
     <script type="text/javascript" src="./js/index.js"></script>
 
 <?php 
