@@ -20,16 +20,64 @@ $(document).ready(function () {
                     page: pageNo
                 },
                 success: function (data) {
-                    // var res = $.parseJSON(data);
                     $("tbody").html(data)
-                    // console.log(data);
-                    // $("#main").addClass(".d-flex .flex-column .align-items-center .justify-content-center .m-5");
+                    console.log(data);
                 },
                 error: function (err) {
                     console.log(err)
                 }
             });
             // window.location.href = newURLString;
+
+            $.ajax({
+                url: "./includes/navigator.php",
+                method: "POST",
+                data: {
+                    id: this.id,
+                    term: term,
+                    page: pageNo
+                },
+                success: function (data) {
+                    $("nav").replaceWith(data);
+                    // console.log(data);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+        } else {
+            $.ajax({
+                url: "./includes/default.php",
+                method: "POST",
+                data: {
+                    id: this.id,
+                    term: term,
+                    page: pageNo
+                },
+                success: function (data) {
+                    $("tbody").html(data)
+                    console.log(data);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+            $.ajax({
+                url: "./includes/navigator.php",
+                method: "POST",
+                data: {
+                    id: this.id,
+                    term: term,
+                    page: pageNo
+                },
+                success: function (data) {
+                    $("nav").replaceWith(data);
+                    // console.log(data);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
         }
     });
 

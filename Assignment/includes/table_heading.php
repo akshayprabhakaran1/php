@@ -24,7 +24,6 @@
                 type="text" 
                 style="display:table-cell; width:100%"
             >
-            <!-- <input type="text" id="<?= $heading ?>"> -->
         </th>
     <?php endforeach; ?>
 </tr>

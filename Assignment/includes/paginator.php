@@ -1,4 +1,4 @@
-<nav class="justify-content-center">
+<nav id="pages" class="justify-content-center">
 
         <!-- to disable the previous button if previous is none -->
         <?php if ($pagenator -> previous): ?>

@@ -1,6 +1,5 @@
 <?php
-// 
-// var_dump($_POST['id']);
+
 require "classes/Database.php";
 require "classes/Books.php";
 require "classes/Pagenator.php";
@@ -30,10 +29,8 @@ if(isset($_POST['id'])) {
     }
 
 ?>
-
-    <?= require "includes/table_body.php" ?>
+    <?php require "includes/table_body.php" ?>
     <script type="text/javascript" src="./js/index.js"></script>
-
 <?php 
 } else {
     echo "Didnt Got";

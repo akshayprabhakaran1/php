@@ -109,10 +109,6 @@ class Books {
                     FROM books
                     WHERE $type LIKE '$term'";
     
-            // print_r($term);
-            // print_r($type);
-            // print_r($sql);
-    
             $stmt = $conn -> prepare($sql);
     
             if ( $stmt -> execute() ) {
@@ -130,10 +126,6 @@ class Books {
                     WHERE $type LIKE '$term'
                     LIMIT :limit
                     OFFSET :offset";
-    
-            // print_r($term);
-            // print_r($type);
-            // print_r($sql);
     
             $stmt = $conn -> prepare($sql);
     
