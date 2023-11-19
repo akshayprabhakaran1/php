@@ -1,3 +1,4 @@
+
 .title-sort {
   display: inline-flex;
   align-items: center;
@@ -14,4 +15,9 @@
 .sort-btn a {
   text-decoration: none;
   color: inherit;
+}
+
+.my-class {
+  color: brown;
+  background-color: pink;
 }

@@ -16,6 +16,10 @@ $total_records = $book -> getTotalRecords($conn);
 
 $pagenator = new Pagenator($_GET['page'] ?? 1, 10, $total_records);
 
+if (isset($_POST['id'])) {
+    echo $_POST['id'];
+}
+
 $result = $book -> getPages($conn, $pagenator -> limit, $pagenator -> offset, $_GET['order'] ?? "not", $_GET['type'] ?? "not");
 
 $t_heading = array();
@@ -29,58 +33,48 @@ foreach ($result[0] as $keys => $values) {
 ?>
 
 <?php require "includes/header.php"; ?>
-    <h1 style="text-align: center">Table Of Books</h1>
-    <table class="table table-striped table-bordered table-hover">
-        <tr>
-            <?php foreach($t_heading as $heading): ?>
-                <th> 
-                    <div class="title-sort">
-                        <div class="title">
-                            <?= $heading ?>
-                        </div>
-                        <div class="sort-btn">
-                            <a href="?page=<?= $_GET['page'] ?? 1 ?>&order=<?= $heading ?>&type=ASC">
-                                <i class="bi bi-caret-up-fill"></i>
-                            </a>
-                            <a href="?page=<?= $_GET['page'] ?? 1 ?>&order=<?= $heading ?>&type=DESC">
-                                <i class="bi bi-caret-down-fill"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- <input type="text" id="<?= $heading ?>"> -->
-                </th>
-            <?php endforeach; ?>
-        </tr>
-        <?php foreach($result as $des): ?>
-           <tr>
-             <?php foreach($des as $d): ?>
-                <th> <?= $d ?> </th>
-            <?php endforeach; ?>
-           </tr>
-        <?php endforeach; ?>
-    </table>
-
-    <nav>
+    <div class="d-flex flex-column align-items-center justify-content-center m-3">
+        <h1 style="text-align: center">Table Of Books</h1>
+        <div class="result-table">
+            <?php require "includes/table.php"; ?>
+        </div>
+        
+    <nav class="justify-content-center">
 
         <!-- to disable the previous button if previous is none -->
         <?php if ($pagenator -> previous): ?>
-            <a class="btn btn-primary" href="?page=<?= $pagenator -> previous ?>&order=<?= $_GET['order'] ?? "not" ?>&type=<?= $_GET['type'] ?? "not" ?>">Previous</a>
+            <a 
+                class="btn btn-primary" 
+                href="<?= isset($_GET['order']) ? "?page=".$pagenator -> previous."&order=".$_GET['order']."&type=".$_GET['type'] : "?page=".$pagenator -> previous ?>"
+            >
+                Previous
+            </a>
         <?php else: ?>
-            <button class="btn btn-primary">Previous</button>
+            <a class="btn btn-primary disabled" href="#">Previous</a>
         <?php endif; ?>
 
         <!-- to display pages -->
         <?php for($i = 1; $i <= $pagenator -> total_pages; $i++): ?>
-            <a class="btn" href="?page=<?= $i ?>"><?= $i ?></a>
+            <a 
+                class="btn" 
+                href="<?= isset($_GET['order']) ? "?page=".$i."&order=".$_GET['order']."&type=".$_GET['type'] : "?page=".$i ?>"
+            >
+                <?= $i ?>
+            </a>
         <?php endfor; ?>
 
         <!-- to disable the next button if next is none -->
         <?php if ($pagenator -> next): ?>
-            <a class="btn btn-primary" href="?page=<?= $pagenator -> next ?>&order=<?= $_GET['order'] ?? "not" ?>&type=<?= $_GET['type'] ?? "not" ?>">Next</a>
+            <a 
+                class="btn btn-primary" 
+                href="<?= isset($_GET['order']) ? "?page=".$pagenator -> next."&order=".$_GET['order']."&type=".$_GET['type'] : "?page=".$pagenator -> next ?>"
+            >
+                Next
+            </a>
         <?php else: ?>
-            <button class="btn btn-primary">Next</button>
+            <a class="btn btn-primary disabled" href="#">Next</a>
         <?php endif; ?>
 
     </nav>
-
+    </div>
 <?php require "includes/footer.php"; ?>

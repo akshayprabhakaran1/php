@@ -65,16 +65,6 @@ class Books {
                 FROM books
                 LIMIT :limit
                 OFFSET :offset";
-        
-            $stmt = $conn -> prepare($sql);
-
-            $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);
-            $stmt -> bindValue(":offset", $offset, PDO::PARAM_INT);
-
-
-            if ( $stmt -> execute() ) {
-                return $stmt -> fetchAll(PDO::FETCH_ASSOC);
-            }
 
         } else {
 
@@ -84,15 +74,15 @@ class Books {
                 $type
                 LIMIT :limit
                 OFFSET :offset";
+        }
 
-            $stmt = $conn -> prepare($sql);
+        $stmt = $conn -> prepare($sql);
 
-            $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);
-            $stmt -> bindValue(":offset", $offset, PDO::PARAM_INT); 
+        $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);
+        $stmt -> bindValue(":offset", $offset, PDO::PARAM_INT); 
 
-            if ( $stmt -> execute() ) {
-                return $stmt -> fetchAll(PDO::FETCH_ASSOC);
-            }
+        if ( $stmt -> execute() ) {
+            return $stmt -> fetchAll(PDO::FETCH_ASSOC);
         }
 
     }
@@ -104,6 +94,30 @@ class Books {
 
         return $conn->query($sql) -> fetchColumn();
 
+    }
+
+    public function search($conn, $type, $term) {
+
+        $term = $term . '%';
+
+        var_dump($term);
+
+        $sql = "SELECT *
+                FROM books
+                WHERE :type LIKE :term;";
+
+        $stmt = $conn -> prepare($sql);
+
+        $stmt -> bindValue(":type", $type, PDO::PARAM_STR);
+        $stmt -> bindValue(":term", $term, PDO::PARAM_STR);
+
+        if ( $stmt -> execute() ) {
+            $result = array();
+            $r=$conn->query("DESCRIBE books")->fetchAll(PDO::FETCH_COLUMN);
+            array_push($result, $r);
+            array_push($result, $stmt->fetchAll(PDO::FETCH_ASSOC));
+            return $result;
+        }
     }
 
 }
