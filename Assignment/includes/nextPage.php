@@ -1,9 +1,9 @@
 <?php
 // 
 // var_dump($_POST['id']);
-require "classes/Database.php";
-require "classes/Books.php";
-require "classes/Pagenator.php";
+require "../classes/Database.php";
+require "../classes/Books.php";
+require "../classes/Pagenator.php";
 
 $db = new Database();
 $book = new Books();
@@ -30,7 +30,7 @@ if(isset($_POST['id'])) {
 
 ?>
 
-    <?= require "includes/table_body.php" ?>
+    <?php include "../includes/table_body.php" ?>
     <script type="text/javascript" src="./js/index.js"></script>
 
 <?php 

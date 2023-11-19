@@ -30,7 +30,7 @@ if(isset($_POST['id'])) {
 ?>
 
     <?php include "../includes/paginator.php" ?>
-    <!-- <script type="text/javascript" src="./js/index.js"></script> -->
+    <script type="text/javascript" src="./js/index.js"></script>
 
 <?php 
 } else {
