@@ -18,7 +18,7 @@
         rel="stylesheet" 
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
     >
-    <link rel="stylesheet" href="./css/index.css">
+    <link href="./css/index.css?v=1.0" rel="stylesheet" type="text/css" />
     <title>Movies</title>
 </head>
 <body>

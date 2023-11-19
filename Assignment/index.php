@@ -25,7 +25,7 @@ $result = $book -> getPages($conn, $pagenator -> limit, $pagenator -> offset, $_
 $t_heading = array();
 
 foreach ($result[0] as $keys => $values) {
-    array_push($t_heading, $keys);
+    array_push($t_heading, $values);
 }
 
 // print_r($t_heading);
@@ -33,12 +33,16 @@ foreach ($result[0] as $keys => $values) {
 ?>
 
 <?php require "includes/header.php"; ?>
-    <div class="d-flex flex-column align-items-center justify-content-center m-3">
+    <div class="main">
         <h1 style="text-align: center">Table Of Books</h1>
-        <div class="result-table">
-            <?php require "includes/table.php"; ?>
-        </div>
-
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <?php require "includes/table_heading.php"; ?>
+                </thead>
+                <tbody>
+                    <?php require "includes/table_body.php"; ?>
+                </tbody>
+            </table>
     <nav class="justify-content-center">
 
         <!-- to disable the previous button if previous is none -->

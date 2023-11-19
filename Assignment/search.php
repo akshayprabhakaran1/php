@@ -14,12 +14,13 @@ $t_heading = array();
 if(isset($_POST['id'])) {
     $result = $book->search($conn, $_POST['id'], $_POST['term']);
 
+    // print_r($result[1]);
+
     foreach ($result[0] as $keys => $values) {
         array_push($t_heading, $values);
     } ?>
-
-    <?php require "includes/table.php"; ?>
-
+    <?php require "includes/table_body.php"; ?>
+    <script type="text/javascript" src="./js/index.js"></script>
 <?php } else {
     echo "Didnt Got";
 }

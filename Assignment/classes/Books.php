@@ -82,7 +82,11 @@ class Books {
         $stmt -> bindValue(":offset", $offset, PDO::PARAM_INT); 
 
         if ( $stmt -> execute() ) {
-            return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+            $result = array();
+            $r=$conn->query("DESCRIBE books")->fetchAll(PDO::FETCH_COLUMN);
+            array_push($result, $r);
+            array_push($result, $stmt->fetchAll(PDO::FETCH_ASSOC));
+            return $result;
         }
 
     }
@@ -102,12 +106,14 @@ class Books {
 
         $sql = "SELECT *
                 FROM books
-                WHERE :type LIKE :term;";
+                WHERE $type LIKE '$term';";
+
+        // print_r($term);
+        // print_r($type);
+        // print_r($sql);
 
         $stmt = $conn -> prepare($sql);
 
-        $stmt -> bindValue(":type", $type, PDO::PARAM_STR);
-        $stmt -> bindValue(":term", $term, PDO::PARAM_STR);
 
         if ( $stmt -> execute() ) {
             $result = array();
