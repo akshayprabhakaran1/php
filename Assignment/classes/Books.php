@@ -100,28 +100,57 @@ class Books {
 
     }
 
-    public function search($conn, $type, $term) {
+    public function search($conn, $type, $term, $limit = null, $offset = null) {
 
-        $term = $term . '%';
-
-        $sql = "SELECT *
-                FROM books
-                WHERE $type LIKE '$term';";
-
-        // print_r($term);
-        // print_r($type);
-        // print_r($sql);
-
-        $stmt = $conn -> prepare($sql);
-
-
-        if ( $stmt -> execute() ) {
-            $result = array();
-            $r=$conn->query("DESCRIBE books")->fetchAll(PDO::FETCH_COLUMN);
-            array_push($result, $r);
-            array_push($result, $stmt->fetchAll(PDO::FETCH_ASSOC));
-            return $result;
+        if ($limit == null) {
+            $term = $term . '%';
+    
+            $sql = "SELECT *
+                    FROM books
+                    WHERE $type LIKE '$term'";
+    
+            // print_r($term);
+            // print_r($type);
+            // print_r($sql);
+    
+            $stmt = $conn -> prepare($sql);
+    
+            if ( $stmt -> execute() ) {
+                $result = array();
+                $r=$conn->query("DESCRIBE books")->fetchAll(PDO::FETCH_COLUMN);
+                array_push($result, $r);
+                array_push($result, $stmt->fetchAll(PDO::FETCH_ASSOC));
+                return $result;
+            }
+        } else {
+            $term = $term . '%';
+    
+            $sql = "SELECT *
+                    FROM books
+                    WHERE $type LIKE '$term'
+                    LIMIT :limit
+                    OFFSET :offset";
+    
+            // print_r($term);
+            // print_r($type);
+            // print_r($sql);
+    
+            $stmt = $conn -> prepare($sql);
+    
+    
+            $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);
+            $stmt -> bindValue(":offset", $offset, PDO::PARAM_INT); 
+    
+    
+            if ( $stmt -> execute() ) {
+                $result = array();
+                $r=$conn->query("DESCRIBE books")->fetchAll(PDO::FETCH_COLUMN);
+                array_push($result, $r);
+                array_push($result, $stmt->fetchAll(PDO::FETCH_ASSOC));
+                return $result;
+            }
         }
+
     }
 
 }
