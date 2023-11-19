@@ -1,4 +1,4 @@
-
+<!-- header section of the index.php page -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

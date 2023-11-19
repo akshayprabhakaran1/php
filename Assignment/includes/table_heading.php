@@ -1,3 +1,4 @@
+<!-- Heading section of the table -->
 <tr>
     <?php foreach($t_heading as $heading): ?>
         <th> 

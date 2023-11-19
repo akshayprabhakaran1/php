@@ -1,10 +1,13 @@
 <?php
 
+//! used to display the default page when no search input is provided
+
 require "../classes/Database.php";
 require "../classes/Books.php";
 require "../classes/Pagenator.php";
 
 $db = new Database();
+
 $book = new Books();
 
 $conn = $db -> getConn();
@@ -19,10 +22,16 @@ $result = $book -> getPages($conn, $pagenator -> limit, $pagenator -> offset, $_
 if(isset($_POST['id'])) {
 
 ?>
+
     <?php require "../includes/table_body.php" ?>
     <script type="text/javascript" src="./js/index.js"></script>
+
 <?php 
+
 } else {
+
     echo "Didnt Got";
+
 }
+
 ?>
