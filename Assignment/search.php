@@ -15,7 +15,7 @@ if(isset($_POST['id'])) {
     $result = $book->search($conn, $_POST['id'], $_POST['term']);
 
     foreach ($result[0] as $keys => $values) {
-        array_push($t_heading, $keys);
+        array_push($t_heading, $values);
     } ?>
 
     <?php require "includes/table.php"; ?>

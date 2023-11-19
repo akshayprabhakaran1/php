@@ -100,8 +100,6 @@ class Books {
 
         $term = $term . '%';
 
-        var_dump($term);
-
         $sql = "SELECT *
                 FROM books
                 WHERE :type LIKE :term;";

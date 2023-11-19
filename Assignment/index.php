@@ -38,7 +38,7 @@ foreach ($result[0] as $keys => $values) {
         <div class="result-table">
             <?php require "includes/table.php"; ?>
         </div>
-        
+
     <nav class="justify-content-center">
 
         <!-- to disable the previous button if previous is none -->
