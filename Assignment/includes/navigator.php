@@ -16,15 +16,15 @@ $conn = $db -> getConn();
 
 $table_heading = array();
 
-$res = $book->search($conn, $_POST['id'], $_POST['term']);
+$res = $book -> search($conn, $_POST['table_attr'], $_POST['search_term']);
 
-if(isset($_POST['id'])) {
+if(isset($_POST['table_attr'])) {
     
     $total_records = count($res[1]);
 
     $pagenator = new Pagenator($_POST['page'] ?? 1, 10, $total_records);
 
-    $result = $book->search($conn, $_POST['id'], $_POST['term'], $pagenator -> limit, $pagenator -> offset);
+    $result = $book->search($conn, $_POST['table_attr'], $_POST['search_term'], $pagenator -> limit, $pagenator -> offset);
     
     // pushiing table values into the array
     foreach ($result[0] as $keys => $values) {

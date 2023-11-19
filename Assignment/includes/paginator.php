@@ -2,7 +2,7 @@
 <nav id="pages" class="justify-content-center">
 
 <!-- to check if the search table is present or not -->
-<?php if (!isset($_POST['id'])): ?>
+<?php if (!isset($_POST['table_attr'])): ?>
 
     <!-- to disable the previous button if previous is none -->
         <?php if ($pagenator -> previous): ?>
