@@ -1,4 +1,5 @@
 <!-- Body section of the table -->
+<?php ?>
 <?php foreach($result[1] as $des): ?>
 
     <tr>
