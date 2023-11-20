@@ -38,7 +38,15 @@ foreach ($result[0] as $keys => $values) {
         
             <h2>Total No: of Records: <?= $total_records; ?></h2>
 
-            <table class="table table-striped table-bordered table-hover">
+            <table 
+                class="
+                    table 
+                    table-striped 
+                    table-bordered 
+                    table-hover 
+                    rounded-3 
+                    overflow-hidden"
+                >
 
                 <thead>
 
