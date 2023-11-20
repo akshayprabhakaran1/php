@@ -1,6 +1,12 @@
 $(document).ready(function () {
-
-    $(".search").on("keyup", function () {
+    var delayInAjaxCall = (function () {
+        var timer = 0;
+        return function (callback, milliseconds) {
+            clearTimeout(timer);
+            timer = setTimeout(callback, milliseconds);
+        };
+    })();
+    $(".search").on("input", function () {
 
         // to get the initail page 
         const urlParams = new URLSearchParams(window.location.search);
@@ -28,24 +34,30 @@ $(document).ready(function () {
                 data: {
                     table_attr: this.id,
                     search_term: search_term,
+                    default: 'false',
                     page: pageNo
                 },
                 success: function (data) {
                     $("tbody").html(data)
+                    // var res = $.parseJSON(data);
+                    // console.log(data)
                 },
                 error: function (err) {
                     console.log(err)
-                }
+                },
+                timeout: 2000
             });
 
             // sending a request to navigator.php to get the correct pagination buttom navigation
             $.ajax({
 
-                url: "./includes/navigator.php",
+                url: "search.php",
                 method: "POST",
                 data: {
                     table_attr: this.id,
                     search_term: search_term,
+                    pagenation: "true",
+                    default: 'false',
                     page: pageNo
                 },
                 success: function (data) {
@@ -53,7 +65,8 @@ $(document).ready(function () {
                 },
                 error: function (err) {
                     console.log(err)
-                }
+                },
+                timeout: 2000
             });
 
         } else {
@@ -63,11 +76,11 @@ $(document).ready(function () {
             // default.php
             $.ajax({
 
-                url: "./includes/default.php",
+                url: "search.php",
                 method: "POST",
                 data: {
                     table_attr: this.id,
-                    search_term: search_term,
+                    default: 'true',
                     page: pageNo
                 },
                 success: function (data) {
@@ -75,18 +88,21 @@ $(document).ready(function () {
                 },
                 error: function (err) {
                     console.log(err)
-                }
+                },
+                timeout: 2000
             });
 
             // sending a request to navigator.php to get the correct pagination buttom navigation
             // for corresponding default page
             $.ajax({
 
-                url: "./includes/navigator.php",
+                url: "search.php",
                 method: "POST",
                 data: {
                     table_attr: this.id,
                     search_term: search_term,
+                    pagenation: "true",
+                    default: 'false',
                     page: pageNo
                 },
                 success: function (data) {
@@ -94,7 +110,8 @@ $(document).ready(function () {
                 },
                 error: function (err) {
                     console.log(err)
-                }
+                },
+                timeout: 2000
             });
         }
     });
@@ -122,30 +139,35 @@ $(document).ready(function () {
             // offset and limit
             $.ajax({
 
-                url: "./includes/nextPage.php",
+                url: "search.php",
                 method: "POST",
                 data: {
                     table_attr: table_attr,
                     search_term: search_term,
+                    default: 'false',
                     page: pageNo
                 },
                 success: function (data) {
                     $("tbody").html(data)
+                    // console.log(data)
                 },
                 error: function (err) {
                     console.log(err)
-                }
+                },
+                timeout: 2000
             });
 
             // sending a request to navigator.php to get the correct pagination buttom navigation
             // for corresponding default page
             $.ajax({
 
-                url: "./includes/navigator.php",
+                url: "search.php",
                 method: "POST",
                 data: {
                     table_attr: table_attr,
                     search_term: search_term,
+                    pagenation: "true",
+                    default: 'false',
                     page: pageNo
                 },
                 success: function (data) {
@@ -153,7 +175,8 @@ $(document).ready(function () {
                 },
                 error: function (err) {
                     console.log(err)
-                }
+                },
+                timeout: 2000
             });
         }
     });
