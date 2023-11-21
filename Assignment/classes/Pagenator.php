@@ -9,6 +9,7 @@ class Pagenator {
     public $offset;
     public $previous;
     public $next;
+    public $current_page;
     public $total_pages;
 
     /**
@@ -30,6 +31,8 @@ class Pagenator {
                 "min_range" => 1
             ]
         ]);
+
+        $this -> current_page = $page;
 
         //! calculating the previous page
         if ($page > 1) {

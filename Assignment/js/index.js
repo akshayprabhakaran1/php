@@ -23,7 +23,7 @@ $(document).ready(function () {
 
             // sending an ajax request to the search.php
             // to get the search result back
-            
+
             request = $.ajax({
 
                 url: "search.php",
@@ -38,7 +38,7 @@ $(document).ready(function () {
                     $("tbody").html(data)
                     // var res = $.parseJSON(data);
                     // console.log(data)
-                    
+
                 },
                 error: function (err) {
                     console.log(err)
@@ -46,7 +46,7 @@ $(document).ready(function () {
             });
 
             // sending a request to navigator.php to get the correct pagination buttom navigation
-           $.ajax({
+            $.ajax({
 
                 url: "search.php",
                 method: "POST",
@@ -108,13 +108,16 @@ $(document).ready(function () {
                 },
             });
         }
+        var uri = window.location.href.toString();
+        if (uri.indexOf("?") > 0) {
+            var clean_uri = uri.substring(0, uri.indexOf("?"));
+            window.history.replaceState({}, document.title, clean_uri);
+        }
     });
 
 
-    $(".navigate").click(function (e) {
-
+    $(document).on('click', ".navigate", function (e) {
         e.preventDefault()
-
         // getting the page number from the curresponding buttons
         // like next, prevoius buttons
         pageNo = $(this).attr("data-page")

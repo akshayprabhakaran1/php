@@ -10,15 +10,9 @@
         <!-- to disable the previous button if previous is none -->
         <?php if ($pagenator -> previous): ?>
 
-            <a 
-                id="prev"
-                class="btn btn-primary" 
-                href="<?= 
-                    isset($_GET['order']) 
-                    ? "?page=".$pagenator -> previous."&order=".$_GET['order']."&type=".$_GET['type'] 
-                    : 
-                    "?page=".$pagenator -> previous 
-                    ?>"
+            <a id="prev" class="btn btn-primary" 
+                href="<?= isset($_GET['order']) ? "?page=".$pagenator -> previous."&order=".$_GET['order']."&type=".$_GET['type'] : 
+                    "?page=".$pagenator -> previous ?>"
             >
                 Previous
             </a>
@@ -33,7 +27,8 @@
         <?php for($i = 1; $i <= $pagenator -> total_pages; $i++): ?>
 
             <a 
-                class="btn" 
+                class="btn 
+                <?php ($pagenator -> current_page  == $i) ? print_r("btn-outline-primary") : print_r("") ?>" 
                 href="<?= 
                     isset($_GET['order']) 
                     ? "?page=".$i."&order=".$_GET['order']."&type=".$_GET['type'] 
@@ -98,7 +93,7 @@
         <?php for($i = 1; $i <= $pagenator -> total_pages; $i++): ?>
 
             <a 
-                class="btn navigate" 
+                class="btn navigate <?php ($pagenator -> current_page  == $i) ? print_r("btn-outline-primary") : print_r("") ?>" 
                 href="#"
                 data-page="<?= $i ?>"
             >
