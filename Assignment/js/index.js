@@ -1,11 +1,4 @@
 $(document).ready(function () {
-    var delayInAjaxCall = (function () {
-        var timer = 0;
-        return function (callback, milliseconds) {
-            clearTimeout(timer);
-            timer = setTimeout(callback, milliseconds);
-        };
-    })();
     $(".search").on("input", function () {
 
         // to get the initail page 
@@ -45,7 +38,6 @@ $(document).ready(function () {
                 error: function (err) {
                     console.log(err)
                 },
-                timeout: 2000
             });
 
             // sending a request to navigator.php to get the correct pagination buttom navigation
@@ -66,7 +58,6 @@ $(document).ready(function () {
                 error: function (err) {
                     console.log(err)
                 },
-                timeout: 2000
             });
 
         } else {
@@ -89,7 +80,6 @@ $(document).ready(function () {
                 error: function (err) {
                     console.log(err)
                 },
-                timeout: 2000
             });
 
             // sending a request to navigator.php to get the correct pagination buttom navigation
@@ -111,7 +101,6 @@ $(document).ready(function () {
                 error: function (err) {
                     console.log(err)
                 },
-                timeout: 2000
             });
         }
     });
@@ -154,7 +143,6 @@ $(document).ready(function () {
                 error: function (err) {
                     console.log(err)
                 },
-                timeout: 2000
             });
 
             // sending a request to navigator.php to get the correct pagination buttom navigation
@@ -176,7 +164,6 @@ $(document).ready(function () {
                 error: function (err) {
                     console.log(err)
                 },
-                timeout: 2000
             });
         }
     });
