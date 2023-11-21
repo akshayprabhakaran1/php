@@ -3,13 +3,13 @@
 
     <?php foreach($table_heading as $heading): ?>
 
-        <th>
+        <th scope="col">
 
             <div class="title-sort">
 
-                <div class="title">
+                <div class="title m-2">
 
-                    <?= $heading ?>
+                    <?= ucwords($heading) ?>
 
                 </div>
 
@@ -39,7 +39,9 @@
                 class="search" 
                 id="<?= $heading ?>" 
                 type="text" 
-                style="display:table-cell; width:100%"
+                style="display:table-cell; 
+                        width:100%;
+                        border-radius:3px"
             >
 
         </th>

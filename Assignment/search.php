@@ -13,7 +13,6 @@ $conn = $db -> getConn();
 $table_heading = array();
 
 
-
 if(isset($_POST['table_attr'])) {
 
     if($_POST['default'] == 'true') {

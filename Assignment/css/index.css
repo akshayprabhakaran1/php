@@ -34,3 +34,9 @@ body {
   color: brown;
   background-color: pink;
 }
+
+input:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
