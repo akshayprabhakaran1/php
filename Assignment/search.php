@@ -43,11 +43,7 @@ if(isset($_POST['table_attr'])) {
 
 ?>
 
-<?php if(isset($_POST['pagenation'])): ?>
-    <?php require "includes/paginator.php" ?>
-<?php else: ?>
-    <?php require "includes/table_body.php" ?>
-<?php endif; ?>
+<?php isset($_POST['pagenation']) ? require "includes/paginator.php" : require "includes/table_body.php" ?>
 
 <?php 
 
