@@ -3,7 +3,7 @@
 
     <?php foreach($table_heading as $heading): ?>
 
-        <th> 
+        <th>
 
             <div class="title-sort">
 

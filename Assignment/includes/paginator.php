@@ -2,10 +2,12 @@
 <!-- Used to the bottom navigation buttons -->
 <nav id="pages" class="justify-content-center">
 
-<!-- to check if the search table is present or not -->
-<?php if (!isset($_POST['table_attr'])): ?>
+<?php if($pagenator -> total_pages > 0): ?>
 
-    <!-- to disable the previous button if previous is none -->
+    <!-- to check if the search table is present or not -->
+    <?php if (!isset($_POST['table_attr'])): ?>
+
+        <!-- to disable the previous button if previous is none -->
         <?php if ($pagenator -> previous): ?>
 
             <a 
@@ -124,7 +126,11 @@
             <a class="btn btn-primary disabled" href="#">Next</a>
 
         <?php endif; ?>
-        
-<?php endif; ?>
+    
+    <?php endif; ?>
+
+<?php else: ?>
+
+<?php endif ?>
 
 </nav>

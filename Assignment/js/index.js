@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    $(".search").on("input", function () {
+    $(".search").on("keyup", function (e) {
+        e.preventDefault();
 
         // to get the initail page 
         const urlParams = new URLSearchParams(window.location.search);
@@ -8,6 +9,8 @@ $(document).ready(function () {
         if (pageNo == null) {
             pageNo = 1
         }
+
+
 
         let table_attr = this.id
         let search_term = $("#" + table_attr).val()
@@ -20,7 +23,8 @@ $(document).ready(function () {
 
             // sending an ajax request to the search.php
             // to get the search result back
-            $.ajax({
+            
+            request = $.ajax({
 
                 url: "search.php",
                 method: "POST",
@@ -34,6 +38,7 @@ $(document).ready(function () {
                     $("tbody").html(data)
                     // var res = $.parseJSON(data);
                     // console.log(data)
+                    
                 },
                 error: function (err) {
                     console.log(err)
@@ -41,7 +46,7 @@ $(document).ready(function () {
             });
 
             // sending a request to navigator.php to get the correct pagination buttom navigation
-            $.ajax({
+           $.ajax({
 
                 url: "search.php",
                 method: "POST",

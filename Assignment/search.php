@@ -50,8 +50,6 @@ if(isset($_POST['table_attr'])) {
     <?php require "includes/table_body.php" ?>
 <?php endif; ?>
 
-    <script type="text/javascript" src="./js/index.js"></script>
-
 <?php 
 
 } else {
