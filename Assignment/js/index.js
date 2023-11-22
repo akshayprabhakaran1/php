@@ -10,8 +10,6 @@ $(document).ready(function () {
             pageNo = 1
         }
 
-
-
         let table_attr = this.id
         let search_term = $("#" + table_attr).val()
 
@@ -23,8 +21,7 @@ $(document).ready(function () {
 
             // sending an ajax request to the search.php
             // to get the search result back
-
-            request = $.ajax({
+            $.ajax({
 
                 url: "search.php",
                 method: "POST",
@@ -36,9 +33,6 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     $("tbody").html(data)
-                    // var res = $.parseJSON(data);
-                    // console.log(data)
-
                 },
                 error: function (err) {
                     console.log(err)
@@ -75,7 +69,6 @@ $(document).ready(function () {
                 url: "search.php",
                 method: "POST",
                 data: {
-                    table_attr: this.id,
                     default: 'true',
                     page: pageNo
                 },
@@ -94,8 +87,6 @@ $(document).ready(function () {
                 url: "search.php",
                 method: "POST",
                 data: {
-                    table_attr: this.id,
-                    search_term: search_term,
                     pagenation: "true",
                     default: 'false',
                     page: pageNo
@@ -129,8 +120,10 @@ $(document).ready(function () {
         // getting the values from the session that was stored before
         let table_attr = sessionStorage.getItem('table_attr')
         let search_term = sessionStorage.getItem('search_term')
+        console.log(search_term)
 
         if (search_term != "") {
+            console.log('Hai')
 
             // to getting the next page corresponding to the page with
             // offset and limit
@@ -146,7 +139,6 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     $("tbody").html(data)
-                    // console.log(data)
                 },
                 error: function (err) {
                     console.log(err)

@@ -40,3 +40,6 @@ setcookie("example", "hello", time() + 60 * 60 * 24 * 2., '/');
 
 //! to display the cookie
 var_dump($_COOKIE);
+
+//! anonumus funtion in php
+$my_number = call_user_func(function($x) { return 4 * $x; }, 5);
