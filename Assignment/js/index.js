@@ -123,7 +123,6 @@ $(document).ready(function () {
         console.log(search_term)
 
         if (search_term != "") {
-            console.log('Hai')
 
             // to getting the next page corresponding to the page with
             // offset and limit
