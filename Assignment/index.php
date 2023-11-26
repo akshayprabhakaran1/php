@@ -1,4 +1,5 @@
 <?php
+
 error_reporting( E_ALL );
 ini_set('display_errors', '1');
 
@@ -14,11 +15,17 @@ $conn = $db -> getConn();
 //! to get total number of records
 $total_records = $book -> getTotalRecords($conn);
 $pagenator = new Pagenator($_GET['page'] ?? 1, 10, $total_records);
-$result = $book -> getPages($conn, $pagenator -> limit, $pagenator -> offset, $_GET['order'] ?? "not", $_GET['type'] ?? "not");
+$result = $book -> getPages(
+    $conn, 
+    $pagenator -> limit, 
+    $pagenator -> offset, 
+    $_GET['order'] ?? null, 
+    $_GET['type'] ?? null
+);
+
 $table_heading = array();
 
 foreach ($result[0] as $keys => $values) {
-
     array_push($table_heading, $values);
 }
 

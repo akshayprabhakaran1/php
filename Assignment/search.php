@@ -25,18 +25,10 @@ if(isset($_POST['default'])) {
         $pagenator = new Pagenator($_POST['page'] ?? 1, 10, $total_records);
         $result = $book -> search($conn, $_POST['table_attr'], $_POST['search_term'], $pagenator -> limit, $pagenator -> offset);
         foreach ($result[0] as $keys => $values) {
-    
             array_push($table_heading, $values);
         }
     }
+}
 ?>
 
 <?php isset($_POST['pagenation']) ? require "includes/paginator.php" : require "includes/table_body.php" ?>
-
-<?php 
-
-} else {
-    echo "Didnt Got";
-}
-
-?>
