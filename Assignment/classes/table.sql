@@ -1,13 +1,4 @@
-CREATE TABLE books (
-    id SERIAL PRIMARY KEY NOT NULL,
-    title VARCHAR(100) NOT NULL,
-    author VARCHAR(60) NOT NULL,
-    genre VARCHAR(60),
-    kind VARCHAR(50) NOT NULL,
-    epoch VARCHAR(50) NOT NULL,
-    url VARCHAR(200) NOT NULL,
-    slug VARCHAR(30) UNIQUE
-)
+set global sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 CREATE TABLE `library`.`books` (
     `id` INT NOT NULL AUTO_INCREMENT , 
@@ -17,5 +8,8 @@ CREATE TABLE `library`.`books` (
     `kind` VARCHAR(50) NOT NULL , 
     `epoch` VARCHAR(50) NOT NULL , 
     `url` VARCHAR(200) NOT NULL , 
-    `slug` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`), UNIQUE `slug_idx` (`slug`)
+    `slug` VARCHAR(100) NOT NULL , PRIMARY KEY (`id`), UNIQUE `slug_idx` (`slug`),
+    `created_at` TIMESTAMP NOT NULL,
+    `modified_at` TIMESTAMP NOT NULL,
+    `deleted_at` TIMESTAMP NULL
     ) ENGINE = InnoDB;

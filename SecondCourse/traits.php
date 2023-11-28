@@ -9,6 +9,8 @@
 //! 3. Base Class Method
 
 trait Chargeable {
+
+    protected $chargeable_id = '30k22';
     public function charge() {}
     //! properties of this traits cannot be
     //! name used in the other class using traits
@@ -38,3 +40,7 @@ class ElectricCarToy extends Toy {
 $o = new ElectricCarToy();
 $o->charge();
 $o->a();
+
+//! the static method we implement in the traits are not shared
+//! like inheritance each class implementing the traits will get
+//! individual existance of the static variable

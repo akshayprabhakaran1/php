@@ -104,4 +104,53 @@
 
 //! to get info about file
 // pathinfo("foo.txt", PATHINFO_BASENAME);
+
+$array = ["a", "b", "c"];
+
+//! to remove the first element from the array
+//! when using the array_shift() the array will get reindexed
+//! unless it is a string key
+// $a = array_shift($array);
+
+//! to remove last element from the array
+// $b = array_pop($array);
+
+//! to delete an element from the array using unset
+//! array will not be reindexed
+//! if we del all the values and the insert it will insert in
+//! the next max key
+// unset($array["a"], $array['b']);
+
+
+//! differance btw both are
+//! array_key_exists will return true if the key exist in the array
+//! even if it points to the null
+// array_key_exists("a", $array);
+
+//! on the other hand if the key points to null
+//! isset will return false
+// isset($array[1]);
+
+// date_default_timezone_set("Asia/Kolkata");
+
+//! as a second atribute we can pass a time() to get future or past time
+// echo date('m/d/Y g:ia');
+
+// echo date('m/d/Y g:ia', strtotime('last day of march 2023'));
+
+// $date = date('m/d/Y g:ia', strtotime('second fiday of january'));
+
+//! give more details about the date
+//! date_parse()
+// date_parse_from_format('m/d/Y g:ia',$date);
+
+//! alternative
+// $dateTime = new DateTime("05/03/2023 3:30PM");
+// $dateTime -> setTimezone(new DateTimeZone("Asia/Kolkata"));
+// $dateTime -> setDate(2023, 09, 04) -> setTime(2, 15, 0);
+// echo $dateTime -> format("Y-m-d H:i:s");
+
+
+
+
 ?>

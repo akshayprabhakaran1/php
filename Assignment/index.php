@@ -1,7 +1,7 @@
 <?php
 
-error_reporting( E_ALL );
-ini_set('display_errors', '1');
+// error_reporting( E_ALL );
+// ini_set('display_errors', '1');
 
 require "classes/Database.php";
 require "classes/Books.php";
@@ -12,7 +12,9 @@ $db = new Database();
 
 $conn = $db -> getConn();
 
-//! to get total number of records
+$table_heading = array();
+
+// to get total number of records
 $total_records = $book -> getTotalRecords($conn);
 $pagenator = new Pagenator($_GET['page'] ?? 1, 10, $total_records);
 $result = $book -> getPages(
@@ -23,10 +25,18 @@ $result = $book -> getPages(
     $_GET['type'] ?? null
 );
 
-$table_heading = array();
+if (isset($result)) {
 
-foreach ($result[0] as $keys => $values) {
-    array_push($table_heading, $values);
+    // to remove the last three columns(created_at..)
+    array_splice($result[0], -3);
+    foreach ($result[0] as $keys => $values) {
+        array_push($table_heading, $values);
+    }
+    
+} else {
+
+    echo "<pre>Record Not Found</pre>";
+    exit;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
-error_reporting( E_ALL );
-ini_set('display_errors', '1');
+// error_reporting( E_ALL );
+// ini_set('display_errors', '1');
 
 /**
  * Summary of Database
@@ -24,17 +24,13 @@ class Database {
         try {
 
             $db = new PDO($dsn, $db_user, $db_pass);
-
             $db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
             return $db;
-
         } catch (PDOException $e) {
 
-            echo $e -> getMessage();
-            
+            // echo $e -> getMessage();
+            echo "<pre>Connection to DB failed!</pre>";
             exit;
-
         }
     }
 }

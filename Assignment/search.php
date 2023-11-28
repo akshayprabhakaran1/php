@@ -1,5 +1,8 @@
 <?php
 
+// error_reporting( E_ALL );
+// ini_set('display_errors', '1');
+
 require "classes/Database.php";
 require "classes/Books.php";
 require "classes/Pagenator.php";
@@ -17,16 +20,20 @@ if(isset($_POST['default'])) {
         
         $total_records = $book -> getTotalRecords($conn);
         $pagenator = new Pagenator($_POST['page'] ?? 1, 10, $total_records);
-        $result = $book -> getPages($conn, $pagenator -> limit, $pagenator -> offset, $_GET['order'] ?? "not", $_GET['type'] ?? "not");
+        $result = $book -> getPages($conn, $pagenator -> limit, $pagenator -> offset, $_GET['order'] ?? null, $_GET['type'] ?? null);
+
     } else {
         
-        $res = $book->search($conn, $_POST['table_attr'], $_POST['search_term']);
+        $res = $book -> search($conn, $_POST['table_attr'], $_POST['search_term']);
         $total_records = count($res[1]);
         $pagenator = new Pagenator($_POST['page'] ?? 1, 10, $total_records);
         $result = $book -> search($conn, $_POST['table_attr'], $_POST['search_term'], $pagenator -> limit, $pagenator -> offset);
+
+        array_splice($result[0], -3);
         foreach ($result[0] as $keys => $values) {
             array_push($table_heading, $values);
         }
+
     }
 }
 ?>

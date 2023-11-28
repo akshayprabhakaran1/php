@@ -1,6 +1,6 @@
 <?php 
-error_reporting( E_ALL );
-ini_set('display_errors', '1');
+// error_reporting( E_ALL );
+// ini_set('display_errors', '1');
 
 /**
  * To access the book database and do insertion, geting count, etc
@@ -12,9 +12,9 @@ class Books {
      * To insert the book datas comming from the api to the db
      * @param object $conn db object for connecting to db
      * @param array $books used to get books details from the api
-     * @return void
+     * @return boolean
      */
-    public function insert($conn, $books) {
+    public function insert($conn, $books): bool {
 
         $sql = "INSERT INTO books (
                     title,
@@ -23,7 +23,9 @@ class Books {
                     kind,
                     epoch,
                     url,
-                    slug
+                    slug,
+                    created_at,
+                    modified_at
                 ) VALUES (
                     :title,
                     :author,
@@ -31,10 +33,13 @@ class Books {
                     :kind,
                     :epoch,
                     :url,
-                    :slug
+                    :slug,
+                    :created_at,
+                    :modified_at
                 )";
 
         try {
+
             $stmt = $conn -> prepare($sql);
             
             $stmt -> bindValue(":title", $books["title"], PDO::PARAM_STR);
@@ -44,34 +49,20 @@ class Books {
             $stmt -> bindValue(":epoch", $books["epoch"], PDO::PARAM_STR);
             $stmt -> bindValue(":url", $books["url"], PDO::PARAM_STR);
             $stmt -> bindValue(":slug", $books["slug"], PDO::PARAM_STR);
+            $stmt -> bindValue(":created_at", date("Y-m-d H:i:s"), PDO::PARAM_STR);
+            $stmt -> bindValue(":modified_at", date("Y-m-d H:i:s"), PDO::PARAM_STR);
             
             $stmt -> execute();
+
+            return true;
+
         } catch (PDOException $e) { 
-            print "". $e -> getMessage() ."";
+            // echo "<pre>". $e -> getMessage() ."</pre>";
+            // echo "<pre><h1>Insertion Failed<h1></pre>";
+            return false;
         }
 
         // binding inserting Values
-    }
-
-    /**
-     * Summary of getAllBooks
-     * To get all books details from the db
-     * @param object $conn db object for connecting to db
-     * @return mixed of all books details
-     */
-    public function getAllBooks($conn) {
-
-        $sql = "SELECT *
-                FROM books";
-        
-        $stmt = $conn -> prepare($sql);
-
-        if ( $stmt -> execute() ) {
-
-            //! to return an assosiative array
-            //! returns false if not found
-            return $stmt -> fetchAll(PDO::FETCH_ASSOC);
-        }
     }
 
     /**
@@ -88,16 +79,32 @@ class Books {
 
         $result = array();
 
-        if ($column == "not") {
+        if (!isset($column)) {
             
-            $sql = "SELECT *
+            $sql = "SELECT
+                    id,
+                    title,
+                    author,
+                    genre,
+                    kind,
+                    epoch,
+                    url,
+                    slug
                 FROM books
                 LIMIT :limit
                 OFFSET :offset";
 
         } else {
 
-            $sql = "SELECT *
+            $sql = "SELECT
+                    id,
+                    title,
+                    author,
+                    genre,
+                    kind,
+                    epoch,
+                    url,
+                    slug
                 FROM books
                 ORDER BY $column 
                 $order
@@ -110,16 +117,18 @@ class Books {
         $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);
         $stmt -> bindValue(":offset", $offset, PDO::PARAM_INT); 
 
-        if ( $stmt -> execute() ) {
+        try {
+
+            $stmt -> execute();
 
             //! to get only column headings
-            $r=$conn -> query("DESCRIBE books") -> fetchAll(PDO::FETCH_COLUMN);
-
-            array_push($result, $r);
-            
+            array_push($result, $conn -> query("DESCRIBE books") -> fetchAll(PDO::FETCH_COLUMN));
             array_push($result, $stmt -> fetchAll(PDO::FETCH_ASSOC));
-            
             return $result;
+
+        } catch (PDOException $e) {
+            // echo "<pre>". $e -> getMessage() ."</pre>";
+            return null;
         }
 
     }
@@ -135,7 +144,13 @@ class Books {
         $sql = "SELECT COUNT(*)
                 FROM books";
 
-        return $conn -> query($sql) -> fetchColumn();
+        try {
+            return $conn -> query($sql) -> fetchColumn();
+        } catch (PDOException $e) {
+            // echo "<pre>". $e -> getMessage() ."</pre>";
+            return null;
+        }
+
 
     }
 
@@ -151,49 +166,58 @@ class Books {
      */
     public function search($conn, $column, $term, $limit = null, $offset = null) {
 
+        $term = $term . '%';
+        $result = array();
+
+        // for setting pagination
         if ($limit == null) {
-            $term = $term . '%';
-    
-            $sql = "SELECT *
+            $sql = "SELECT
+                    id,
+                    title,
+                    author,
+                    genre,
+                    kind,
+                    epoch,
+                    url,
+                    slug
                     FROM books
                     WHERE $column LIKE '$term'";
-    
+
             $stmt = $conn -> prepare($sql);
-    
-            if ( $stmt -> execute() ) {
-                $result = array();
-                $r=$conn->query("DESCRIBE books") -> fetchAll(PDO::FETCH_COLUMN);
-                array_push($result, $r);
-                array_push($result, $stmt -> fetchAll(PDO::FETCH_ASSOC));
-                return $result;
-            }
+
         } else {
-            $term = $term . '%';
-    
-            $sql = "SELECT *
+            // for getting search result
+            $sql = "SELECT
+                    id,
+                    title,
+                    author,
+                    genre,
+                    kind,
+                    epoch,
+                    url,
+                    slug
                     FROM books
                     WHERE $column LIKE '$term'
                     LIMIT :limit
                     OFFSET :offset";
     
             $stmt = $conn -> prepare($sql);
-    
-    
+
             $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);
             $stmt -> bindValue(":offset", $offset, PDO::PARAM_INT); 
-    
-    
-            if ( $stmt -> execute() ) {
-                $result = array();
-                $r=$conn->query("DESCRIBE books")->fetchAll(PDO::FETCH_COLUMN);
-                array_push($result, $r);
-                array_push($result, $stmt->fetchAll(PDO::FETCH_ASSOC));
-                return $result;
-            } else {
-                print_r("Unable to fetch the data");
-            }
         }
 
+        try {
+
+            $stmt -> execute();
+            array_push($result, $conn->query("DESCRIBE books") -> fetchAll(PDO::FETCH_COLUMN));
+            array_push($result, $stmt -> fetchAll(PDO::FETCH_ASSOC));
+            return $result;
+
+        } catch (PDOException $e) {
+            // echo "<pre>". $e -> getMessage() ."</pre>";
+            return null;
+        }
     }
 
 }
