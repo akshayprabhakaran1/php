@@ -42,9 +42,13 @@ for ($i = 0; $i <= 99; $i++) {
 }
 
 if ($result) {
-    echo "<pre><h1>Insertion was successfull!</h1></pre>";
+    echo "<pre>
+            <h1>Insertion was successfull!</h1>
+        </pre>";
 } else {
-    echo "<pre><h1>Insertion was failed!</h1></pre>";
+    echo "<pre>
+            <h1>Insertion was failed!</h1>
+        </pre>";
 }
 
 ?>
