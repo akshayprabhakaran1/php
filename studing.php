@@ -150,7 +150,10 @@ $array = ["a", "b", "c"];
 // $dateTime -> setDate(2023, 09, 04) -> setTime(2, 15, 0);
 // echo $dateTime -> format("Y-m-d H:i:s");
 
-
+//! create the file in append mode
+//! if file doesnt exist then the file will be created
+$handler = fopen("append.txt","a");
+fwrite($handler, "aks\n");
 
 
 ?>
