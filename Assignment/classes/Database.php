@@ -29,7 +29,9 @@ class Database {
         } catch (PDOException $e) {
 
             // echo $e -> getMessage();
-            echo "<pre>Connection to DB failed!</pre>";
+            echo "<pre class='d-flex align-items-center justify-content-center vh-100'>
+                    <h1>Connection to DB failed!</h1>
+                </pre>";
             exit;
         }
     }

@@ -3,6 +3,8 @@
 // error_reporting( E_ALL );
 // ini_set('display_errors', '1');
 
+include "includes/header.php";
+
 require "classes/Database.php";
 require "classes/Books.php";
 require "classes/Pagenator.php";
@@ -35,13 +37,15 @@ if (isset($result)) {
     
 } else {
 
-    echo "<pre>Record Not Found</pre>";
+    echo "<pre class='d-flex align-items-center justify-content-center vh-100'>
+            <h1>Table Not Found!</h1>
+        </pre>";
     exit;
 }
 
 ?>
 
-<?php include "includes/header.php"; ?>
+
     <div class="main">
         <h1 style="text-align: center">Table Of Books</h1>
             <h2>Total No: of Records: <?= $total_records; ?></h2>
