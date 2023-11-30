@@ -181,8 +181,9 @@ class Books {
 
         $sql = "SELECT id, title, author, genre, kind, epoch, url, slug FROM books ";
         
-        // for setting pagination
         if ($limit == null) {
+
+             // for setting pagination
             $sql .= !empty($str) ? " WHERE ".implode(" AND ", $str) .";" : ";";
             $stmt = $conn -> prepare($sql);
 
