@@ -153,4 +153,10 @@ $array = ["a", "b", "c"];
 //! to convert newline attribute of php to a br in html
 nl2br(implode("", $array));
 
+//! create the file in append mode
+//! if file doesnt exist then the file will be created
+$handler = fopen("append.txt","a");
+fwrite($handler, "aks\n");
+
+
 ?>
