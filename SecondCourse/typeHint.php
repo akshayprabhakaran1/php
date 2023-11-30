@@ -30,8 +30,8 @@
 
 //! self
 //! public function testSelf(self $myObj)
-//! now the mwthord will only accept the argument that is an
-//! instanceof the same class in which the methord is defined
+//! now the method will only accept the argument that is an
+//! instanceof the same class in which the method is defined
 
 // class A {
 //     public static function checkValue() {

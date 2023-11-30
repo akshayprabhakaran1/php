@@ -16,6 +16,9 @@ class Books {
      */
     public function insert($conn, $books): bool {
 
+        $dateTime = new DateTime();
+        $dateTime -> setTimezone(new DateTimeZone("Asia/Kolkata"));
+
         $sql = "INSERT INTO books (
                     title,
                     author,
@@ -49,8 +52,8 @@ class Books {
             $stmt -> bindValue(":epoch", $books["epoch"], PDO::PARAM_STR);
             $stmt -> bindValue(":url", $books["url"], PDO::PARAM_STR);
             $stmt -> bindValue(":slug", $books["slug"], PDO::PARAM_STR);
-            $stmt -> bindValue(":created_at", date("Y-m-d H:i:s"), PDO::PARAM_STR);
-            $stmt -> bindValue(":modified_at", date("Y-m-d H:i:s"), PDO::PARAM_STR);
+            $stmt -> bindValue(":created_at", $dateTime -> format("Y-m-d H:i:s"), PDO::PARAM_STR);
+            $stmt -> bindValue(":modified_at", $dateTime -> format("Y-m-d H:i:s"), PDO::PARAM_STR);
             
             $stmt -> execute();
 

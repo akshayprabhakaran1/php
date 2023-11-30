@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types= 1);
+
 // class MyIterator implements Iterator {
     
 //     private $arr = array(); 
@@ -78,10 +80,7 @@
 
 // //! fget() will return lines from the file resource
 // //! strict comparison is used because  if the $line has false as string value it will get
-// //! to unexpected bugs
-// while (($line = fgets($file)) !== false) {
-//     echo $line. "<br/>";
-// }
+// //! to unexpected bugsThe CLI binary is distributed in the main folder as php.
 
 // //! after the use of that particular file is completed
 // fclose($file);
@@ -149,6 +148,10 @@ $array = ["a", "b", "c"];
 // $dateTime -> setTimezone(new DateTimeZone("Asia/Kolkata"));
 // $dateTime -> setDate(2023, 09, 04) -> setTime(2, 15, 0);
 // echo $dateTime -> format("Y-m-d H:i:s");
+
+
+//! to convert newline attribute of php to a br in html
+nl2br(implode("", $array));
 
 //! create the file in append mode
 //! if file doesnt exist then the file will be created

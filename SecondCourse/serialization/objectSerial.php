@@ -5,7 +5,7 @@
 //! so to sent a object through a network or
 //! store it in database we need to seralize the object
 //! when we serialize a object it doesn't contain any details 
-//! about methord of the object.
+//! about method of the object.
 
 //! serialize() and unserialize() are not only for object 
 //! we can use it for any php variables

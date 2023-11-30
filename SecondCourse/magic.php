@@ -28,6 +28,8 @@
 //! into a parseable string(php code)
 //! we can run that php code using php eval function.
 
+// $var = "fdf";
+
 // class Test2 {
 //     private $value1;
 //     private $value2;

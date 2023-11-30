@@ -6,7 +6,7 @@ class Student {
     //! when class get called it create a
     //! copy of each non static elements for all objects
     //! but not for static elements
-    //!  $this wont work in static methords
+    //! $this wont work in static methords
     public static function someFunction() {
         echo "Static Methord";
         // ! cannot call this.

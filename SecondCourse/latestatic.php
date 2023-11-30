@@ -40,16 +40,16 @@ class B extends A {
     }
 }
 
-// $objA = new A;
-// $objB = new B;
+$objA = new A;
+$objB = new B;
 
 //! both are early bindings
-// echo $objA -> name;
-// $objA->printValue();
+echo $objA -> name;
+$objA->printValue();
 
 //! late bindings
-// $objA->test();
-// $objB->test();
+$objA->test();
+$objB->test();
 
 //! to deal with the issue of late binding in static methods
 //! php introduced static:: keyword instead of self

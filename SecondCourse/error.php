@@ -1,12 +1,12 @@
 <?php
 
-//! error and exception are implemented from a interface throwable in the php 7.
-//! types of errors
-//! 1.Notice! (Non critical errors)
-//! 2.Warning.
-//! 3.Fatal Error.
-//! 4.Parser Error or Syntax Errors.
-//! 5.Strict Standard Notices.
+// ! error and exception are implemented from a interface throwable in the php 7.
+// ! types of errors
+// ! 1.Notice! (Non critical errors)
+// ! 2.Warning.
+// ! 3.Fatal Error.
+// ! 4.Parser Error or Syntax Errors.
+// ! 5.Strict Standard Notices.
 
 //! Notice
 //! ~  will ignore that type of errors
