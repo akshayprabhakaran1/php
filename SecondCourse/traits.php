@@ -25,6 +25,7 @@ trait AnotherTrait {
 class Toy {}
 
 class ElectricCarToy extends Toy {
+    // protected $chargeable_id = '30k22';
     // use Chargeable{charge as private;}
     use Chargeable, AnotherTrait {
         //! to avoid nameing conflict bt traits

@@ -40,6 +40,5 @@ $obj1 = new myClass();
 // var_dump($obj1 -> $count);
 // echo $obj -> disCount(); 
 // print_r($obj1 -> sumOfNum(4 ,6));
-
 //! to call a constant from a class
 echo myClass::SMALL;
