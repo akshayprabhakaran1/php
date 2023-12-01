@@ -51,3 +51,9 @@ class Pagenator {
         $this -> offset = $record_per_page * ($page - 1);
     }
 }
+
+try {
+    throw new OutOfRangeException("Hai");
+} catch (OutOfRangeException | OverflowException $e) {
+
+ }

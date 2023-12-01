@@ -1,40 +1,24 @@
 <!-- Heading section of the table -->
 <tr>
-
     <?php foreach($table_heading as $heading): ?>
-
         <th scope="col">
-
             <div class="title-sort">
-
                 <div class="title m-2">
-
                     <?= ucwords($heading) ?>
-
                 </div>
-
                 <div class="sort-btn">
-
                     <a 
                         href="?page=<?= $_GET['page'] ?? 1 ?>&order=<?= $heading ?>&type=ASC"
                     >
-
                         <i class="bi bi-caret-up-fill"></i>
-
                     </a>
-
                     <a 
                         href="?page=<?= $_GET['page'] ?? 1 ?>&order=<?= $heading ?>&type=DESC"
                     >
-
                         <i class="bi bi-caret-down-fill"></i>
-
                     </a>
-
                 </div>
-
             </div>
-
             <input 
                 class="search" 
                 id="<?= $heading ?>" 
@@ -43,9 +27,6 @@
                         width:100%;
                         border-radius:3px"
             >
-
         </th>
-
     <?php endforeach; ?>
-    
 </tr>

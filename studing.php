@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types= 1);
+declare(strict_types = 1);
 
 // class MyIterator implements Iterator {
     
@@ -144,10 +144,10 @@ $array = ["a", "b", "c"];
 // date_parse_from_format('m/d/Y g:ia',$date);
 
 //! alternative
-// $dateTime = new DateTime("05/03/2023 3:30PM");
-// $dateTime -> setTimezone(new DateTimeZone("Asia/Kolkata"));
-// $dateTime -> setDate(2023, 09, 04) -> setTime(2, 15, 0);
-// echo $dateTime -> format("Y-m-d H:i:s");
+$dateTime = new DateTime("05/03/2023 3:30PM");
+$dateTime -> setTimezone(new DateTimeZone("Asia/Kolkata"));
+$dateTime -> setDate(2023, 09, 04) -> setTime(2, 15, 0);
+echo $dateTime -> format("Y-m-d H:i:s");
 
 
 //! to convert newline attribute of php to a br in html

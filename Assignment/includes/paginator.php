@@ -68,7 +68,7 @@
 
         <?php endif; ?>
 
-<?php else: ?>
+    <?php else: ?>
 
     <!-- to disable the previous button if previous is none -->
         <?php if ($pagenator -> previous): ?>

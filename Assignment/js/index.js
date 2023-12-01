@@ -39,7 +39,7 @@ $(document).ready(function () {
                 },
             });
 
-            // sending a request to navigator.php to get the correct pagination buttom navigation
+            // sending a request to search.php to get the correct pagination buttom navigation
             $.ajax({
 
                 url: "search.php",
@@ -63,7 +63,7 @@ $(document).ready(function () {
 
             // if search term is removed from the section
             // then to show the orginal table a request is send to
-            // default.php
+            // search.php
             $.ajax({
 
                 url: "search.php",
@@ -81,7 +81,7 @@ $(document).ready(function () {
             });
 
             // sending a request to navigator.php to get the correct pagination buttom navigation
-            // for corresponding default page
+            // for corresponding search page
             $.ajax({
 
                 url: "search.php",
@@ -99,6 +99,8 @@ $(document).ready(function () {
                 },
             });
         }
+
+        // to clear the url page
         var uri = window.location.href.toString();
         if (uri.indexOf("?") > 0) {
             var clean_uri = uri.substring(0, uri.indexOf("?"));
@@ -120,7 +122,7 @@ $(document).ready(function () {
         // getting the values from the session that was stored before
         let table_attr = sessionStorage.getItem('table_attr')
         let search_term = sessionStorage.getItem('search_term')
-        console.log(search_term)
+        // console.log(search_term)
 
         if (search_term != "") {
 
