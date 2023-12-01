@@ -24,16 +24,15 @@ if(isset($_POST['default'])) {
 
     } else {
         
-        $res = $book -> search($conn, $_POST['table_attr'], $_POST['search_term']);
+        $res = $book -> search($conn, $_POST['search_term']);
         $total_records = count($res[1]);
         $pagenator = new Pagenator($_POST['page'] ?? 1, 10, $total_records);
-        $result = $book -> search($conn, $_POST['table_attr'], $_POST['search_term'], $pagenator -> limit, $pagenator -> offset);
+        $result = $book -> search($conn, $_POST['search_term'], $pagenator -> limit, $pagenator -> offset);
 
         array_splice($result[0], -3);
         foreach ($result[0] as $keys => $values) {
             array_push($table_heading, $values);
         }
-
     }
 }
 ?>

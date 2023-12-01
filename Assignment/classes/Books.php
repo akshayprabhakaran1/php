@@ -162,48 +162,35 @@ class Books {
      * Used for filtering the string given like search
      * @param object $conn db object for connecting to db
      * @param string $column based on with column the record should sort
-     * @param string $term based on which the records are searched
+     * @param array $term based on which the records are searched
      * @param integer $limit limit of the record to get
      * @param integer $offset offset of the record to get
      * @return mixed found records
      */
-    public function search($conn, $column, $term, $limit = null, $offset = null) {
+    public function search($conn, array $term, $limit = null, $offset = null) {
 
-        $term = $term . '%';
         $result = array();
 
-        // for setting pagination
-        if ($limit == null) {
-            $sql = "SELECT
-                    id,
-                    title,
-                    author,
-                    genre,
-                    kind,
-                    epoch,
-                    url,
-                    slug
-                    FROM books
-                    WHERE $column LIKE '$term'";
+        $str = [];
 
+        foreach($term as $keys => $values){
+            if ($values != '%%'){
+                array_push($str, "$keys LIKE '$values'");
+            }
+        }
+
+        $sql = "SELECT id, title, author, genre, kind, epoch, url, slug FROM books ";
+        
+        if ($limit == null) {
+
+             // for setting pagination
+            $sql .= !empty($str) ? " WHERE ".implode(" AND ", $str) .";" : ";";
             $stmt = $conn -> prepare($sql);
 
         } else {
+
             // for getting search result
-            $sql = "SELECT
-                    id,
-                    title,
-                    author,
-                    genre,
-                    kind,
-                    epoch,
-                    url,
-                    slug
-                    FROM books
-                    WHERE $column LIKE '$term'
-                    LIMIT :limit
-                    OFFSET :offset";
-    
+            $sql .= !empty($str) ? " WHERE ".implode(" AND ", $str) . " LIMIT :limit OFFSET :offset;" : " LIMIT :limit OFFSET :offset;";
             $stmt = $conn -> prepare($sql);
 
             $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);
