@@ -14,27 +14,17 @@ $conn = $db -> getConn();
 
 $table_heading = array();
 
-if(isset($_POST['default'])) {
+$res = $book -> search($conn, $_POST['search_term'] ?? null);
+$total_records = count($res[1]);
+$pagenator = new Pagenator($_POST['page'] ?? 1, 10, $total_records);
+$result = $book -> search($conn, $_POST['search_term'] ?? null, $pagenator -> limit, $pagenator -> offset);
 
-    if(!isset($_POST['table_attr'])) {
-        
-        $total_records = $book -> getTotalRecords($conn);
-        $pagenator = new Pagenator($_POST['page'] ?? 1, 10, $total_records);
-        $result = $book -> getPages($conn, $pagenator -> limit, $pagenator -> offset, $_GET['order'] ?? null, $_GET['type'] ?? null);
 
-    } else {
-        
-        $res = $book -> search($conn, $_POST['search_term']);
-        $total_records = count($res[1]);
-        $pagenator = new Pagenator($_POST['page'] ?? 1, 10, $total_records);
-        $result = $book -> search($conn, $_POST['search_term'], $pagenator -> limit, $pagenator -> offset);
-
-        array_splice($result[0], -3);
-        foreach ($result[0] as $keys => $values) {
-            array_push($table_heading, $values);
-        }
-    }
+array_splice($result[0], -3);
+foreach ($result[0] as $keys => $values) {
+    array_push($table_heading, $values);
 }
+
 ?>
 
 <?php

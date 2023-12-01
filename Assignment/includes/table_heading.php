@@ -7,16 +7,12 @@
                     <?= ucwords($heading) ?>
                 </div>
                 <div class="sort-btn">
-                    <a 
-                        href="?page=<?= $_GET['page'] ?? 1 ?>&order=<?= $heading ?>&type=ASC"
-                    >
+                    <div data-order=<?= $heading ?> data-type= "ASC">
                         <i class="bi bi-caret-up-fill"></i>
-                    </a>
-                    <a 
-                        href="?page=<?= $_GET['page'] ?? 1 ?>&order=<?= $heading ?>&type=DESC"
-                    >
+                    </div>
+                    <div data-order=<?= $heading ?> data-type= "DESC">
                         <i class="bi bi-caret-down-fill"></i>
-                    </a>
+                    </div>
                 </div>
             </div>
             <input 
@@ -25,7 +21,7 @@
                 type="text" 
                 style="display:table-cell; 
                         width:100%;
-                        border-radius:3px"
+                        border-radius:5px"
             >
         </th>
     <?php endforeach; ?>

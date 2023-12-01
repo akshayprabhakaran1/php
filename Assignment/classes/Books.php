@@ -162,20 +162,22 @@ class Books {
      * Used for filtering the string given like search
      * @param object $conn db object for connecting to db
      * @param string $column based on with column the record should sort
-     * @param array $term based on which the records are searched
+     * @param mixed $term based on which the records are searched
      * @param integer $limit limit of the record to get
      * @param integer $offset offset of the record to get
      * @return mixed found records
      */
-    public function search($conn, array $term, $limit = null, $offset = null) {
+    public function search($conn, $term = [], $limit = null, $offset = null) {
 
         $result = array();
 
         $str = [];
 
-        foreach($term as $keys => $values){
-            if ($values != '%%'){
-                array_push($str, "$keys LIKE '$values'");
+        if (!empty($term) && is_array($term)) {
+            foreach($term as $keys => $values){
+                if ($values != '%%'){
+                    array_push($str, "$keys LIKE '$values'");
+                }
             }
         }
 
@@ -205,7 +207,7 @@ class Books {
             return $result;
 
         } catch (PDOException $e) {
-            // echo "<pre>". $e -> getMessage() ."</pre>";
+            echo "<pre>". $e -> getMessage() ."</pre>";
             return null;
         }
     }
