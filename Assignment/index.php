@@ -52,17 +52,19 @@
         <div class="main">
             <h1 style="text-align: center">Table Of Books</h1>
             <h2>Total No: of Records: <?= $total_records; ?></h2>
-            <table class=" table table-striped table-bordered table-hover rounded-3 overflow-hidden"
-                    style="table-layout: fixed;">
-                <thead class="table-dark">
-                    <?php include "includes/table_heading.php"; ?>
-                </thead>
-                <tbody>
+            <div class="table-responsive">
+                <table class=" table table-striped table-bordered table-hover rounded-3 overflow-hidden"
+                    style="table-layout: fixed; word-wrap: break-word;">
+                    <thead class="table-dark">
+                        <?php include "includes/table_heading.php"; ?>
+                    </thead>
+                    <tbody>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
             <div id="pagination">
-                
+
             </div>
         </div>
         <footer>
