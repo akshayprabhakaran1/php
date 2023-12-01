@@ -25,8 +25,42 @@ function createPagination(pagenator) {
         $(nextBtn).text('Next')
         $(navBar).append(nextBtn)
     }
-    console.log(navBar)
     return navBar
+}
+
+function createTable(tableHeading, tableElements) {
+    // var navBar = document.createElement('nav')
+    for(i = 0; i < tableElements.length; i++) {
+        var tableRow = document.createElement('tr')
+        for(j = 0; j < tableHeading.length; j++) {
+            var tableDesc = document.createElement('td')
+            $(tableDesc).text(tableElements[i][tableHeading[j]])
+            $(tableRow).append(tableDesc)
+        }
+    }
+    return tableRow
+}
+
+function pageStart(table_attr, search_collection, pageNo) {
+    $.ajax({
+        url: "search.php",
+        method: "POST",
+        data: {
+            table_attr: table_attr,
+            search_term: search_collection,
+            default: 'false',
+            page: pageNo
+        },
+        success: function (data) {
+            var navigation = $.parseJSON(data.navigation)
+            var result = $.parseJSON(data.result)
+            $("#pagination").html(createPagination(navigation))
+            $('tbody').html(createTable(result[0], result[1]))
+        },
+        error: function (err) {
+            console.log(err)
+        },
+    });
 }
 
 $(document).ready(function () {
@@ -58,50 +92,13 @@ $(document).ready(function () {
 
         if (!$.isEmptyObject(search_collection)) {
 
-            // console.log("arr")
-                // sending an ajax request to the search.php
-                // to get the search result back
-                $.ajax({
+            // sending an ajax request to the search.php
+            // to get the search result back
+            
+            // sending a request to navigator.php to get the correct pagination buttom navigation
+            pageStart(table_attr, search_collection, pageNo)
 
-                    url: "search.php",
-                    method: "POST",
-                    data: {
-                        table_attr: this.id,
-                        search_term: search_collection,
-                        default: 'false',
-                        page: pageNo
-                    },
-                    success: function (data) {
-                        var navigation = $.parseJSON(data.navigation)
-                        var result = $.parseJSON(data.result)
-                        $("#pagination").html(createPagination(navigation));
-                    },
-                    error: function (err) {
-                        console.log(err)
-                    },
-                });
-
-                // sending a request to navigator.php to get the correct pagination buttom navigation
-                $.ajax({
-
-                    url: "search.php",
-                    method: "POST",
-                    data: {
-                        table_attr: this.id,
-                        search_term: search_collection,
-                        pagenation: "true",
-                        default: 'false',
-                        page: pageNo
-                    },
-                    success: function (data) {
-                        $("nav").replaceWith(data);
-                    },
-                    error: function (err) {
-                        console.log(err)
-                    },
-                });
-
-            } else {
+        } else {
 
                 // if search term is removed from the section
                 // then to show the orginal table a request is send to
