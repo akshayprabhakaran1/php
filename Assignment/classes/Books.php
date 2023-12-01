@@ -167,7 +167,7 @@ class Books {
      * @param integer $offset offset of the record to get
      * @return mixed found records
      */
-    public function search($conn, $term = [], $limit = null, $offset = null) {
+    public function search($conn, $term, $sort = [], $limit = null, $offset = null) {
 
         $result = array();
 
@@ -181,8 +181,11 @@ class Books {
             }
         }
 
-        $sql = "SELECT id, title, author, genre, kind, epoch, url, slug FROM books ";
-        
+        $sql =  (empty($sort)) ? "SELECT id, title, author, genre, kind, epoch, url, slug FROM books " 
+                : "SELECT id, title, author, genre, kind, epoch, url, slug FROM books ORDER BY ". $sort['order'] ." ". $sort['type']. " ";
+
+        // $sql = "SELECT id, title, author, genre, kind, epoch, url, slug FROM books ";
+
         if ($limit == null) {
 
              // for setting pagination
@@ -192,7 +195,7 @@ class Books {
         } else {
 
             // for getting search result
-            $sql .= !empty($str) ? " WHERE ".implode(" AND ", $str) . " LIMIT :limit OFFSET :offset;" : " LIMIT :limit OFFSET :offset;";
+            $sql .= !empty($str) ? " WHERE ".implode(" AND ", $str) . "LIMIT :limit OFFSET :offset;" : "LIMIT :limit OFFSET :offset;";
             $stmt = $conn -> prepare($sql);
 
             $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);

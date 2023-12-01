@@ -54,8 +54,9 @@ function createTable(tableHeading, tableElements) {
     return tableBody
 }
 
-function pageStart(table_attr = false, search_collection = {}, page = 1) {
+function pageStart(table_attr = false, search_collection = {}, page = 1, sort = {}) {
 
+    console.log(sort)
     $.ajax({
         url: "search.php",
         method: "POST",
@@ -63,9 +64,11 @@ function pageStart(table_attr = false, search_collection = {}, page = 1) {
             table_attr: table_attr,
             search_term: (typeof search_collection == 'string') ? JSON.parse(search_collection) : search_collection,
             default: (!table_attr) ? 'false' : 'true',
+            sort: sort,
             page: page
         },
         success: function (data) {
+            console.log(data)
             var navigation = $.parseJSON(data.navigation)
             var result = $.parseJSON(data.result)
             $("#pagination").html(createPagination(navigation))
@@ -96,31 +99,43 @@ $(document).ready(function () {
 
         if (!$.isEmptyObject(search_collection)) {
 
-            // sending an ajax request to the search.php
-            // to get the search result back
-
-            // sending a request to navigator.php to get the correct pagination buttom navigation
             pageStart(table_attr, search_collection)
 
         }
-        var uri = window.location.href.toString();
-        if (uri.indexOf("?") > 0) {
-            var clean_uri = uri.substring(0, uri.indexOf("?"));
-            window.history.replaceState({}, document.title, clean_uri);
-        }
+
     });
 
 
     $(document).on('click', ".navigate", function (e) {
         e.preventDefault()
-        // getting the page number from the curresponding buttons
-        // like next, prevoius buttons
-        pageNo = $(this).attr("data-page")
-        // getting the values from the session that was stored before   
-        // console.log(pageNo, sessionStorage.getItem('search'))
+
+        pageNo = $(this).attr("data-page")  
 
         // to getting the next page corresponding to the page with
         // offset and limit
         pageStart(false, sessionStorage.getItem('search'), pageNo)
+    });
+
+    $(document).on('click', ".sort", function (e) {
+        e.preventDefault()
+
+        let pageNo
+        sorting = {}
+        sorting['order'] = $(this).attr("data-order")
+        sorting['type'] = $(this).attr("data-type")
+        // console.log(sorting)
+
+        $(document).on('click', ".navigate", function (e) {
+            e.preventDefault()
+            pageNo = $(this).attr("data-page")
+        });
+
+        if (pageNo == null) {
+            pageNo = 1
+        }
+
+        // to getting the next page corresponding to the page with
+        // offset and limit
+        pageStart(false, sessionStorage.getItem('search'), pageNo, sorting)
     });
 });

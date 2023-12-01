@@ -14,10 +14,10 @@ $conn = $db -> getConn();
 
 $table_heading = array();
 
-$res = $book -> search($conn, $_POST['search_term'] ?? null);
+$res = $book -> search($conn, $_POST['search_term'] ?? [], $_POST['sort'] ?? []);
 $total_records = count($res[1]);
 $pagenator = new Pagenator($_POST['page'] ?? 1, 10, $total_records);
-$result = $book -> search($conn, $_POST['search_term'] ?? null, $pagenator -> limit, $pagenator -> offset);
+$result = $book -> search($conn, $_POST['search_term'] ?? [], $_POST['sort'] ?? [], $pagenator -> limit, $pagenator -> offset);
 
 
 array_splice($result[0], -3);

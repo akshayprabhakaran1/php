@@ -7,10 +7,10 @@
                     <?= ucwords($heading) ?>
                 </div>
                 <div class="sort-btn">
-                    <div data-order=<?= $heading ?> data-type= "ASC">
+                    <div class="sort" data-order=<?= $heading ?> data-type= "ASC">
                         <i class="bi bi-caret-up-fill"></i>
                     </div>
-                    <div data-order=<?= $heading ?> data-type= "DESC">
+                    <div class="sort" data-order=<?= $heading ?> data-type= "DESC">
                         <i class="bi bi-caret-down-fill"></i>
                     </div>
                 </div>
