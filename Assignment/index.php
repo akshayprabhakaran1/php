@@ -48,23 +48,25 @@
 
         ?>
     </head>
-        <body>
-            <div class="main">
-                <h1 style="text-align: center">Table Of Books</h1>
-                    <h2>Total No: of Records: <?= $total_records; ?></h2>
-                    <table class=" table table-striped table-bordered table-hover rounded-3 overflow-hidden"
-                            style="table-layout: fixed;">
-                        <thead class="table-dark">
-                            <?php include "includes/table_heading.php"; ?>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                    <div id="pagination">
-                    </div>
+    <body>
+        <div class="main">
+            <h1 style="text-align: center">Table Of Books</h1>
+            <h2>Total No: of Records: <?= $total_records; ?></h2>
+            <table class=" table table-striped table-bordered table-hover rounded-3 overflow-hidden"
+                    style="table-layout: fixed;">
+                <thead class="table-dark">
+                    <?php include "includes/table_heading.php"; ?>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <div id="pagination">
+                
             </div>
-            <footer>
-                <?php include "includes/footer.php"; ?>
-            </footer>
+        </div>
+        <footer>
+            <?php include "includes/footer.php"; ?>
+        </footer>
     </body>
 </html>

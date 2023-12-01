@@ -78,7 +78,6 @@ function pageStart(table_attr = false, search_collection = {}, page = 1, sort = 
             console.log(err.responseText)
         },
     });
-
 }
 
 $(document).ready(function () {
@@ -94,36 +93,25 @@ $(document).ready(function () {
         let search_term = $("#" + table_attr).val()
         search_collection[table_attr] = "%" + search_term + "%"
 
-        // stroing in session for pagining purpose
         sessionStorage.setItem('search', JSON.stringify(search_collection))
 
         if (!$.isEmptyObject(search_collection)) {
-
             pageStart(table_attr, search_collection)
-
         }
-
     });
-
 
     $(document).on('click', ".navigate", function (e) {
         e.preventDefault()
-
         pageNo = $(this).attr("data-page")  
-
-        // to getting the next page corresponding to the page with
-        // offset and limit
         pageStart(false, sessionStorage.getItem('search'), pageNo)
     });
 
     $(document).on('click', ".sort", function (e) {
         e.preventDefault()
-
         let pageNo
         sorting = {}
         sorting['order'] = $(this).attr("data-order")
         sorting['type'] = $(this).attr("data-type")
-        // console.log(sorting)
 
         $(document).on('click', ".navigate", function (e) {
             e.preventDefault()
@@ -133,9 +121,6 @@ $(document).ready(function () {
         if (pageNo == null) {
             pageNo = 1
         }
-
-        // to getting the next page corresponding to the page with
-        // offset and limit
         pageStart(false, sessionStorage.getItem('search'), pageNo, sorting)
     });
 });
