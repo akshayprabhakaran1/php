@@ -1,3 +1,34 @@
+function createPagination(pagenator) {
+
+    var navBar = document.createElement('nav')
+    $(navBar).addClass("d-flex justify-content-center w-100")
+
+    var previousBtn = document.createElement('a')
+    var nextBtn = document.createElement('a')
+
+    if(pagenator.total_pages > 0){
+
+        $(previousBtn).addClass((pagenator.previous) ? "btn btn-primary" : "btn btn-primary disabled")
+        $(previousBtn).attr('href', (pagenator.previous) ? "?page="+pagenator.previous : "#")
+        $(previousBtn).text('Previous')
+        $(navBar).append(previousBtn)
+
+        for(i = 1; i <= pagenator.total_pages; i++){
+            let page = $("<a>").attr('data-page', i)
+            $(page).addClass((pagenator.current_page == i) ? "mx-2 btn btn-outline-primary" : "mx-2 btn")
+            $(page).text(i)
+            $(navBar).append(page)
+        }
+
+        $(nextBtn).addClass((pagenator.next) ? "btn btn-primary" : "btn btn-primary disabled")
+        $(nextBtn).attr('href', (pagenator.next) ? "?page="+pagenator.next : "#")
+        $(nextBtn).text('Next')
+        $(navBar).append(nextBtn)
+    }
+    console.log(navBar)
+    return navBar
+}
+
 $(document).ready(function () {
     let search_collection = {};
     
@@ -20,14 +51,14 @@ $(document).ready(function () {
         // stroing in session for pagining purpose
         // sessionStorage.setItem('search', search_collection)
         // sessionStorage.setItem('search_term', search_term)
-        console.log(search_collection)
+        // console.log(search_collection)
         // $("#" + table_attr).on("keyup", function () {
 
         // })
 
         if (!$.isEmptyObject(search_collection)) {
 
-            console.log("arr")
+            // console.log("arr")
                 // sending an ajax request to the search.php
                 // to get the search result back
                 $.ajax({
@@ -41,8 +72,9 @@ $(document).ready(function () {
                         page: pageNo
                     },
                     success: function (data) {
-                        $("tbody").html(data)
-                        // console.log(data)
+                        var navigation = $.parseJSON(data.navigation)
+                        var result = $.parseJSON(data.result)
+                        $("#pagination").html(createPagination(navigation));
                     },
                     error: function (err) {
                         console.log(err)
@@ -147,7 +179,8 @@ $(document).ready(function () {
                     page: pageNo
                 },
                 success: function (data) {
-                    $("tbody").html(data)
+                    // $("tbody").html(data)
+                    console.log(data)
                 },
                 error: function (err) {
                     console.log(err)

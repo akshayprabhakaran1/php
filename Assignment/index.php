@@ -65,6 +65,7 @@ if (isset($result)) {
                     <?php include "includes/table_body.php"; ?>
                 </tbody>
             </table>
-        <?php include "includes/paginator.php"; ?>
+            <div id="pagination">
+            </div>
     </div>
 <?php include "includes/footer.php"; ?>

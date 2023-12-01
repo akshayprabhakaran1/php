@@ -37,4 +37,10 @@ if(isset($_POST['default'])) {
 }
 ?>
 
-<?php isset($_POST['pagenation']) ? require "includes/paginator.php" : require "includes/table_body.php" ?>
+<?php
+    $json = [];
+    header('Content-Type: application/json');
+    $json['navigation'] = json_encode($pagenator);
+    $json['result'] = json_encode($result);
+    echo json_encode($json);
+?>
