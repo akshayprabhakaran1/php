@@ -1,30 +1,43 @@
 function createPagination(pagenator) {
 
     var navBar = document.createElement('nav')
-    $(navBar).addClass("d-flex justify-content-center w-100")
 
     var previousBtn = document.createElement('a')
     var nextBtn = document.createElement('a')
 
+    var ul = document.createElement('ul')
+    $(ul).addClass("pagination")
+
     if (pagenator.total_pages > 0) {
 
-        $(previousBtn).addClass((pagenator.previous) ? "btn btn-primary navigate" : "btn btn-primary disabled")
+        li = document.createElement('li')
+        $(previousBtn).addClass((pagenator.previous) ? "page-link navigate" : "page-link disabled")
         $(previousBtn).attr('data-page', (pagenator.previous) ? pagenator.previous : "")
         $(previousBtn).text('Previous')
-        $(navBar).append(previousBtn)
+        $(li).addClass("page-item")
+        $(li).append(previousBtn)
+        $(ul).append(li)
 
         for (i = 1; i <= pagenator.total_pages; i++) {
-            let page = $("<a>").attr('data-page', i)
-            $(page).addClass((pagenator.current_page == i) ? "mx-2 btn btn-primary navigate" : "mx-2 btn navigate")
+
+            li = document.createElement('li')
+            page = $("<a>").attr('data-page', i)
+            $(page).addClass((pagenator.current_page == i) ? "page-link active navigate" : "page-link navigate")
             $(page).text(i)
-            $(navBar).append(page)
+            $(li).addClass("page-item")
+            $(li).append(page)
+            $(ul).append(li)
         }
 
-        $(nextBtn).addClass((pagenator.next) ? "btn btn-primary navigate" : "btn btn-primary disabled")
+        li = document.createElement('li')
+        $(nextBtn).addClass((pagenator.next) ? "page-link navigate" : "page-link disabled")
         $(nextBtn).attr('data-page', (pagenator.next) ? pagenator.next : "")
         $(nextBtn).text('Next')
-        $(navBar).append(nextBtn)
+        $(li).addClass("page-item")
+        $(li).append(nextBtn)
+        $(ul).append(li)
     }
+    $(navBar).append(ul)
     return navBar
 }
 
@@ -54,7 +67,7 @@ function createTable(tableHeading, tableElements) {
     return tableBody
 }
 
-function pageStart(search_collection = {}, sort = {}, page = 1) {
+function getRecords(search_collection = {}, sort = {}, page = 1) {
     $.ajax({
         url: "search.php",
         method: "POST",
@@ -80,7 +93,7 @@ $(document).ready(function () {
 
     let search_collection = {};
     sessionStorage.clear();
-    pageStart()
+    getRecords()
 
     $(".search").on("keyup", function (e) {
         e.preventDefault();
@@ -92,13 +105,13 @@ $(document).ready(function () {
 
         sessionStorage.setItem('search', JSON.stringify(search_collection))
 
-        pageStart(search_collection)
+        getRecords(search_collection)
     });
 
     $(document).on('click', ".navigate", function (e) {
         e.preventDefault()
         pageNo = $(this).attr("data-page")
-        pageStart(sessionStorage.getItem('search'), sessionStorage.getItem('sort'), pageNo)
+        getRecords(sessionStorage.getItem('search'), sessionStorage.getItem('sort'), pageNo)
     });
 
     $(document).on('click', ".sort", function (e) {
@@ -118,6 +131,6 @@ $(document).ready(function () {
         if (pageNo == null) {
             pageNo = 1
         }
-        pageStart(sessionStorage.getItem('search'), sorting, pageNo)
+        getRecords(sessionStorage.getItem('search'), sorting, pageNo)
     });
 });
