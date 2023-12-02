@@ -17,3 +17,38 @@
 >
 <link href="./css/index.css?v=1.0" rel="stylesheet" type="text/css" />
 <title>Books</title>
+
+<?php
+
+// error_reporting( E_ALL );
+// ini_set('display_errors', '1');
+
+require "classes/Database.php";
+require "classes/Books.php";
+require "classes/Pagenator.php";
+
+$book = new Books();
+$db = new Database();
+
+$conn = $db -> getConn();
+
+$table_heading = array();
+
+// to get total number of records
+$total_records = $book -> getTotalRecords( $conn );
+$result = $book -> getHeadings( $conn );
+
+if (isset($result)) {
+// to remove the last three columns(created_at..)
+    array_splice($result, -3);
+    foreach ($result as $keys => $values) {
+        array_push($table_heading, $values);
+    }   
+} else {
+    echo "<pre class='d-flex align-items-center justify-content-center vh-100'>
+            <h1>Table Not Found!</h1>
+            </pre>";
+    exit;
+}
+
+?>

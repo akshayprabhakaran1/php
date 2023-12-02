@@ -19,27 +19,8 @@ class Books {
         $dateTime = new DateTime();
         $dateTime -> setTimezone(new DateTimeZone("Asia/Kolkata"));
 
-        $sql = "INSERT INTO books (
-                    title,
-                    author,
-                    genre,
-                    kind,
-                    epoch,
-                    url,
-                    slug,
-                    created_at,
-                    modified_at
-                ) VALUES (
-                    :title,
-                    :author,
-                    :genre,
-                    :kind,
-                    :epoch,
-                    :url,
-                    :slug,
-                    :created_at,
-                    :modified_at
-                )";
+        $sql = "INSERT INTO books ( title, author, genre, kind, epoch, url, slug, created_at, modified_at ) 
+                VALUES ( :title, :author, :genre, :kind, :epoch, :url, :slug, :created_at, :modified_at )";
 
         try {
 
@@ -69,7 +50,7 @@ class Books {
     }
 
     /**
-     * Summary of getPages
+     * Summary of getHeadings
      * Funtion mainly used for pagenation used to get records based on limit and offset
      * @param object $conn db object for connecting to db
      * @param integer $limit limit of the record to get
@@ -78,56 +59,17 @@ class Books {
      * @param string $order how to sort assending or decending 
      * @return mixed getting seperate column referance and books data
      */
-    public function getPages($conn, $limit, $offset, $column, $order) {
+    public function getHeadings($conn) {
 
-        $result = array();
+        $sql = "SELECT id, title, author, genre, kind, epoch, url, slug FROM books;";
 
-        if (!isset($column)) {
-            
-            $sql = "SELECT
-                    id,
-                    title,
-                    author,
-                    genre,
-                    kind,
-                    epoch,
-                    url,
-                    slug
-                FROM books
-                LIMIT :limit
-                OFFSET :offset";
-
-        } else {
-
-            $sql = "SELECT
-                    id,
-                    title,
-                    author,
-                    genre,
-                    kind,
-                    epoch,
-                    url,
-                    slug
-                FROM books
-                ORDER BY $column 
-                $order
-                LIMIT :limit
-                OFFSET :offset";
-        }
-
-        $stmt = $conn -> prepare($sql);
-
-        $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);
-        $stmt -> bindValue(":offset", $offset, PDO::PARAM_INT); 
+        $stmt = $conn -> prepare($sql); 
 
         try {
 
             $stmt -> execute();
-
             //! to get only column headings
-            array_push($result, $conn -> query("DESCRIBE books") -> fetchAll(PDO::FETCH_COLUMN));
-            array_push($result, $stmt -> fetchAll(PDO::FETCH_ASSOC));
-            return $result;
+            return $conn -> query("DESCRIBE books") -> fetchAll(PDO::FETCH_COLUMN);
 
         } catch (PDOException $e) {
             // echo "<pre>". $e -> getMessage() ."</pre>";
@@ -161,15 +103,16 @@ class Books {
      * Summary of search
      * Used for filtering the string given like search
      * @param object $conn db object for connecting to db
-     * @param string $column based on with column the record should sort
      * @param mixed $term based on which the records are searched
-     * @param integer $limit limit of the record to get
-     * @param integer $offset offset of the record to get
+     * @param array $sort limit of the record to get
+     * @param array $page offset of the record to get
      * @return mixed found records
      */
-    public function search($conn, $term, $sort = [], $limit = null, $offset = null) {
+    public function search($conn, $term, $sort = [], $page = []) {
 
         $result = array();
+
+        // print_r($sort);
 
         $str = [];
 
@@ -184,9 +127,7 @@ class Books {
         $sql =  (empty($sort)) ? "SELECT id, title, author, genre, kind, epoch, url, slug FROM books " 
                 : "SELECT id, title, author, genre, kind, epoch, url, slug FROM books ORDER BY ". $sort['order'] ." ". $sort['type']. " ";
 
-        // $sql = "SELECT id, title, author, genre, kind, epoch, url, slug FROM books ";
-
-        if ($limit == null) {
+        if (empty($page)) {
 
              // for setting pagination
             $sql .= !empty($str) ? " WHERE ".implode(" AND ", $str) .";" : ";";
@@ -198,8 +139,8 @@ class Books {
             $sql .= !empty($str) ? " WHERE ".implode(" AND ", $str) . "LIMIT :limit OFFSET :offset;" : "LIMIT :limit OFFSET :offset;";
             $stmt = $conn -> prepare($sql);
 
-            $stmt -> bindValue(":limit", $limit, PDO::PARAM_INT);
-            $stmt -> bindValue(":offset", $offset, PDO::PARAM_INT); 
+            $stmt -> bindValue(":limit", $page['limit'], PDO::PARAM_INT);
+            $stmt -> bindValue(":offset", $page['offset'], PDO::PARAM_INT); 
         }
 
         try {
@@ -210,7 +151,7 @@ class Books {
             return $result;
 
         } catch (PDOException $e) {
-            echo "<pre>". $e -> getMessage() ."</pre>";
+            // echo "<pre>". $e -> getMessage() ."</pre>";
             return null;
         }
     }

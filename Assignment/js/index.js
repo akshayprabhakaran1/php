@@ -15,7 +15,7 @@ function createPagination(pagenator) {
 
         for (i = 1; i <= pagenator.total_pages; i++) {
             let page = $("<a>").attr('data-page', i)
-            $(page).addClass((pagenator.current_page == i) ? "mx-2 btn btn-outline-primary navigate" : "mx-2 btn navigate")
+            $(page).addClass((pagenator.current_page == i) ? "mx-2 btn btn-primary navigate" : "mx-2 btn navigate")
             $(page).text(i)
             $(navBar).append(page)
         }
@@ -54,17 +54,13 @@ function createTable(tableHeading, tableElements) {
     return tableBody
 }
 
-function pageStart(table_attr = false, search_collection = {}, page = 1, sort = {}) {
-
-    console.log(sort)
+function pageStart(search_collection = {}, sort = {}, page = 1) {
     $.ajax({
         url: "search.php",
         method: "POST",
         data: {
-            table_attr: table_attr,
             search_term: (typeof search_collection == 'string') ? JSON.parse(search_collection) : search_collection,
-            default: (!table_attr) ? 'false' : 'true',
-            sort: sort,
+            sort: (typeof sort == 'string') ? JSON.parse(sort) : sort,
             page: page
         },
         success: function (data) {
@@ -83,6 +79,7 @@ function pageStart(table_attr = false, search_collection = {}, page = 1, sort = 
 $(document).ready(function () {
 
     let search_collection = {};
+    sessionStorage.clear();
     pageStart()
 
     $(".search").on("keyup", function (e) {
@@ -95,15 +92,13 @@ $(document).ready(function () {
 
         sessionStorage.setItem('search', JSON.stringify(search_collection))
 
-        if (!$.isEmptyObject(search_collection)) {
-            pageStart(table_attr, search_collection)
-        }
+        pageStart(search_collection)
     });
 
     $(document).on('click', ".navigate", function (e) {
         e.preventDefault()
-        pageNo = $(this).attr("data-page")  
-        pageStart(false, sessionStorage.getItem('search'), pageNo)
+        pageNo = $(this).attr("data-page")
+        pageStart(sessionStorage.getItem('search'), sessionStorage.getItem('sort'), pageNo)
     });
 
     $(document).on('click', ".sort", function (e) {
@@ -113,6 +108,8 @@ $(document).ready(function () {
         sorting['order'] = $(this).attr("data-order")
         sorting['type'] = $(this).attr("data-type")
 
+        sessionStorage.setItem('sort', JSON.stringify(sorting))
+
         $(document).on('click', ".navigate", function (e) {
             e.preventDefault()
             pageNo = $(this).attr("data-page")
@@ -121,6 +118,6 @@ $(document).ready(function () {
         if (pageNo == null) {
             pageNo = 1
         }
-        pageStart(false, sessionStorage.getItem('search'), pageNo, sorting)
+        pageStart(sessionStorage.getItem('search'), sorting, pageNo)
     });
 });
