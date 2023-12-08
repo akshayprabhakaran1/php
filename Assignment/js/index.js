@@ -77,7 +77,6 @@ function getRecords(search_collection = {}, sort = {}, page = 1) {
             page: page
         },
         success: function (data) {
-            console.log(data)
             var navigation = $.parseJSON(data.navigation)
             var result = $.parseJSON(data.result)
             $("#pagination").html(createPagination(navigation))
